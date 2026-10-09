@@ -21,137 +21,352 @@
   }
   body {
     font-family: -apple-system, Arial, sans-serif;
-    background: radial-gradient(circle at top, #2b2b3d, #0f0f1a);
+    background: radial-gradient(circle at top, #2b2b3d 0%, #1a1a2e 50%, #0f0f1a 100%);
     color: white;
     display: flex;
     flex-direction: column;
+    padding: 12px;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  /* Верхняя панель — профиль */
+  .top-bar {
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px;
-    min-height: 100vh;
+    background: rgba(44, 44, 62, 0.6);
+    border-radius: 14px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.05);
   }
-  h1 {
-    font-size: 18px;
-    color: #aaa;
-    font-weight: normal;
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  .score-block {
-    text-align: center;
-    margin-top: 10px;
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #1c1c1e;
   }
-  .score-label {
+  .user-name {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .user-level {
+    font-size: 12px;
+    color: #FFD700;
+  }
+  .level-badge {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #1c1c1e;
+    padding: 6px 12px;
+    border-radius: 20px;
     font-size: 13px;
-    color: #888;
-  }
-  .score {
-    font-size: 44px;
-    color: gold;
     font-weight: bold;
   }
+
+  /* Прогресс уровня */
+  .level-progress {
+    width: 100%;
+    height: 8px;
+    background: #2c2c3e;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .level-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    width: 0%;
+    transition: width 0.3s;
+  }
+
+  /* Счёт */
+  .score-block {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .score-label {
+    font-size: 12px;
+    color: #888;
+    letter-spacing: 1px;
+  }
+  .score {
+    font-size: 40px;
+    color: gold;
+    font-weight: bold;
+    text-shadow: 0 0 20px rgba(255,215,0,0.4);
+  }
+
+  /* Монета */
   .coin-wrap {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    min-height: 200px;
   }
   .coin {
-    width: 60vw;
-    height: 60vw;
-    max-width: 260px;
-    max-height: 260px;
+    width: 55vw;
+    height: 55vw;
+    max-width: 240px;
+    max-height: 240px;
     border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #FFE066, #FFB300 60%, #B37700);
-    box-shadow: 0 10px 40px rgba(255,180,0,0.4), inset 0 -10px 20px rgba(0,0,0,0.3);
+    box-shadow:
+      0 10px 40px rgba(255,180,0,0.5),
+      inset 0 -10px 20px rgba(0,0,0,0.3),
+      0 0 60px rgba(255,180,0,0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18vw;
+    font-size: 16vw;
     cursor: pointer;
     transition: transform 0.05s;
     touch-action: manipulation;
   }
   @media (min-width: 500px) {
-    .coin { font-size: 90px; }
+    .coin { font-size: 80px; }
   }
   .coin.tap {
     animation: pop 0.12s;
   }
   @keyframes pop {
     0% { transform: scale(1); }
-    50% { transform: scale(1.07); }
+    50% { transform: scale(1.08); }
     100% { transform: scale(1); }
   }
-  .upgrade {
-    width: 100%;
-    max-width: 400px;
-    background: #2c2c3e;
-    border-radius: 12px;
-    padding: 14px 16px;
-    font-size: 15px;
+
+  /* Кнопки */
+  .buttons {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .btn {
+    width: 100%;
+    background: linear-gradient(135deg, #2AABEE, #229ED9);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:;
+ 8px;
     touch-action: manipulation;
+    transition: transform 0.1s;
   }
-  .upgrade:active {
-    background: #3a3a4e;
+  .btn:active {
+    transform: scale(0.97);
   }
-  .upgrade-price {
-    color: gold;
-    font-weight: bold;
+  .btn-gold {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #1c1c1e;
   }
+  .btn-purple {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+  }
+  .btn-green {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }.btn:disabled {
+    background: #444;
+    color: #888;
+    cursor: not-allowed;
+  }
+
+  /* Всп   лывающие цифры */
   .float {
-    position: fixed;
+    font-size:  position: fixed;
     color: gold;
-    font-weight: bold;
-    font-size: 22px;
+    font-weight: bold22px;
     pointer-events: none;
     animation: floatUp 0.9s forwards;
     z-index: 999;
+    text-shadow: 0 0 10px rgba(255,215,0,0.8);
   }
   @keyframes floatUp {
     0% { opacity: 1; transform: translateY(0); }
     100% { opacity: 0; transform: translateY(-80px); }
   }
+
+  /* Модальное окно профиля */
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  .modal.active {
+    display: flex;
+  }
+  .modal-content {
+    background: #2c2c3e;
+    border-radius: 20px;
+    padding: 24px;
+    width: 100%;
+    max-width: 360px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .modal-title {
+    font-size: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 14px;
+  }
+  .stat-row:last-child {
+    border-bottom: none;
+  }
+  .stat-label {
+    color: #888;
+  }
+  .stat-value {
+    color: #FFD700;
+    font-weight: 600;
+  }
+  .close-btn {
+    width: 100%;
+    margin-top: 16px;
+    background: #444;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 15px;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
 
-  <h1>Моя игра</h1>
+  <!-- Верхняя панель -->
+  <div class="top-bar">
+    <div class="user-info">
+      <div class="avatar" id="avatar">?</div>
+      <div>
+        <div class="user-name" id="userName">Игрок</div>
+        <div class="user-level">Уровень <span id="levelSmall">1</span></div>
+      </div>
+    </div>
+    <div class="level-badge" id="levelBadge">Ур. 1</div>
+  </div>
 
+  <!-- Прогресс уровня -->
+  <div class="level-progress">
+    <div class="level-progress-fill" id="levelProgress"></div>
+  </div>
+
+  <!-- Счёт -->
   <div class="score-block">
-    <div class="score-label">Монет</div>
+    <div class="score-label">МОНЕТ</div>
     <div class="score"><span id="score">0</span> 🪙</div>
   </div>
 
+  <!-- Монета -->
   <div class="coin-wrap">
     <div class="coin" id="coin">🪙</div>
   </div>
 
-  <div class="upgrade" id="upgradeBtn">
-    <span>Купить +1 к тапу</span>
-    <span class="upgrade-price"><span id="price">10</span> 🪙</span>
+  <!-- Кнопки -->
+  <div class="buttons">
+    <button class="btn btn-gold" id="upgradeBtn">
+      ⚡ Купить +1 к тапу — <span id="price">10</span> 🪙
+    </button>
+    <button class="btn btn-green" id="dailyBtn">
+      🎁 Ежедневный бонус
+    </button>
+    <button class="btn btn-purple" id="inviteBtn">
+      👥 Пригласить друга
+    </button>
+    <button class="btn" id="profileBtn">
+      📊 Профиль
+    </button>
+  </div>
+
+  <!-- Модальное окно профиля -->
+  <div class="modal" id="profileModal">
+    <div class="modal-content">
+      <div class="modal-title">📊 Профиль</div>
+      <div class="stat-row">
+        <span class="stat-label">Имя</span>
+        <span class="stat-value" id="statName">—</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Уровень</span>
+        <span class="stat-value" id="statLevel">1</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Монет</span>
+        <span class="stat-value" id="statScore">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Всего тапов</span>
+        <span class="stat-value" id="statTaps">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">За тап</span>
+        <span class="stat-value" id="statTapPower">1</span>
+      </div>
+      <button class="close-btn" id="closeProfile">Закрыть</button>
+    </div>
   </div>
 
   <script>
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
+    const tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+    }
 
+    // === СОСТОЯНИЕ ИГРЫ ===
     let score = 0;
     let tapPower = 1;
     let upgradeCost = 10;
+    let totalTaps = 0;
+    let level = 1;
+    let lastDaily = 0;
 
+    // Формула: уровень N требует N*N*50 таповfunction tapsForLevel(lvl) {
+      return lvl * lvl * 50;
+    }
+
+    // === ЗАГРУЗКА / СОХРАНЕНИЕ ===
     function loadProgress() {
       const saved = localStorage.getItem('tapgame');
       if (saved) {
-        const data = JSON.parse(saved);
-        score = data.score || 0;
-        tapPower = data.tapPower || 1;
-        upgradeCost = data.upgradeCost || 10;
+        const d = JSON.parse(saved);
+        score = d.score || 0;
+        tapPower = d.tapPower || 1;
+        upgradeCost = d.upgradeCost || 10;
+        totalTaps = d.totalTaps || 0;
+        level = d.level || 1;
+        lastDaily = d.lastDaily || 0;
       }
     }
 
@@ -159,17 +374,54 @@
       localStorage.setItem('tapgame', JSON.stringify({
         score: score,
         tapPower: tapPower,
-        upgradeCost: upgradeCost
+        upgradeCost: upgradeCost,
+        totalTaps: totalTaps,
+        level: level,
+        lastDaily: lastDaily
       }));
     }
 
     setInterval(saveProgress, 3000);
 
+    // === ИМЯ ИГРОКА ===
+    const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name)
+      ? tg.initDataUnsafe.user.first_name
+      : 'Игрок';
+
+    document.getElementById('userName').textContent = userName;
+    document.getElementById('avatar').textContent = userName.charAt(0).toUpperCase();
+
+    // === ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ===
+    function updateUI() {
+      document.getElementById('score').textContent = score;
+      document.getElementById('price').textContent = upgradeCost;
+      document.getElementById('levelSmall').textContent = level;
+      document.getElementById('levelBadge').textContent = 'Ур. ' + level;
+
+      const currentLevelTaps = tapsForLevel(level - 1);
+      const nextLevelTaps = tapsForLevel(level);
+      const progress = ((totalTaps - currentLevelTaps) / (nextLevelTaps - currentLevelTaps)) * 100;
+      document.getElementById('levelProgress').style.width = Math.min(100, Math.max(0, progress)) + '%';
+    }
+
+    // === ТАП ===
     const coin = document.getElementById('coin');
 
     function tapCoin(e) {
-      score = score + tapPower;
-      document.getElementById('score').textContent = score;
+      score += tapPower;
+      totalTaps += 1;
+
+      // Проверка на новый уровень
+      const needed = tapsForLevel(level);
+      if (totalTaps >= needed) {
+        level += 1;
+        const bonus = level * 500;
+        score += bonus;
+        if (tg) tg.showAlert('🎉 Новый уровень ' + level + '! Бонус: +' + bonus + ' монет');
+        else alert('🎉 Новый уровень ' + level + '! Бонус: +' + bonus);
+      }
+
+      updateUI();
 
       coin.classList.remove('tap');
       void coin.offsetWidth;
@@ -177,7 +429,8 @@
 
       let x = window.innerWidth / 2;
       let y = window.innerHeight / 2;
-      if (e.touches && e.touches[0]) {x = e.touches[0].clientX;
+      if (e.touches && e.touches[0]) {
+        x = e.touches[0].clientX;
         y = e.touches[0].clientY;
       } else if (e.clientX) {
         x = e.clientX;
@@ -185,7 +438,7 @@
       }
       showFloat(x, y);
 
-      if (tg.HapticFeedback) {
+      if (tg && tg.HapticFeedback) {
         tg.HapticFeedback.impactOccurred('light');
       }
     }
@@ -210,26 +463,74 @@
       tapCoin(e);
     });
 
-    function buyUpgrade() {
+    // === АПГРЕЙД ===
+    document.getElementById('upgradeBtn').addEventListener('click', function() {
       if (score >= upgradeCost) {
-        score = score - upgradeCost;
-        tapPower = tapPower + 1;
-        upgradeCost = upgradeCost * 2;
-        document.getElementById('score').textContent = score;
-        document.getElementById('price').textContent = upgradeCost;
-        if (tg.HapticFeedback) {
+        score -= upgradeCost;
+        tapPower += 1;
+        upgradeCost = Math.floor(upgradeCost * 2);
+        updateUI();
+        if (tg && tg.HapticFeedback) {
           tg.HapticFeedback.notificationOccurred('success');
         }
       } else {
-        tg.showAlert('Не хватает монет!');
+        if (tg) tg.showAlert('Не хватает монет!');
+        else alert('Не хватает монет!');
       }
-    }
+    });
 
-    document.getElementById('upgradeBtn').addEventListener('click', buyUpgrade);
+    // === ЕЖЕДНЕВНЫЙ БОНУС ===
+    document.getElementById('dailyBtn').addEventListener('click', function() {
+      const now = Date.now();
+      const day = 24 * 60 * 60 * 1000;
+      if (now - lastDaily < day) {
+        const left = Math.ceil((day - (now - lastDaily)) / (60 * 60 * 1000));
+        if (tg) tg.showAlert('Бонус будет через ' + left + ' ч.');
+        else alert('Бонус будет через ' + left + ' ч.');
+        return;
+      }
+      const bonus = 5000 + level * 500;
+      score += bonus;
+      lastDaily = now;
+      updateUI();
+      if (tg) tg.showAlert('🎁 Ежедневный бонус: +' + bonus + ' монет!');
+      else alert('🎁 Ежедневный бонус: +' + bonus + ' монет!');
+    });
 
+    // === РЕФЕРАЛЬНАЯ КНОПКА ===
+    document.getElementById('inviteBtn').addEventListener('click', function() {
+      const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'unknown';
+      const botUsername = 'ТВОЙ_БОТ'; // ЗАМЕНИ на username своего бота без @
+      const link = 'https://t.me/' + botUsername + '?start=ref_' + userId;
+      const text = 'Играй со мной! Зарабатывай монеты 👉';
+      const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(text);
+      if (tg) tg.openTelegramLink(shareUrl);
+      else window.open(shareUrl, '_blank');
+    });
+
+    // === ПРОФИЛЬ ===
+    document.getElementById('profileBtn').addEventListener('click', function() {
+      document.getElementById('statName').textContent = userName;
+      document.getElementById('statLevel').textContent = level;
+      document.getElementById('statScore').textContent = score;
+      document.getElementById('statTaps').textContent = totalTaps;
+      document.getElementById('statTapPower').textContent = tapPower;
+      document.getElementById('profileModal').classList.add('active');
+    });
+
+    document.getElementById('closeProfile').addEventListener('click', function() {
+      document.getElementById('profileModal').classList.remove('active');
+    });
+
+    document.getElementById('profileModal').addEventListener('click', function(e) {
+      if (e.target.id === 'profileModal') {
+        document.getElementById('profileModal').classList.remove('active');
+      }
+    });
+
+    // === СТАРТ ===
     loadProgress();
-    document.getElementById('score').textContent = score;
-    document.getElementById('price').textContent = upgradeCost;
+    updateUI();
   </script>
 
 </body>
