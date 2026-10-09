@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Игра</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #1c1c1e;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+  }
+  h1 { font-size: 20px; }
+  .score {
+    font-size: 40px;
+    color: gold;
+    margin: 20px 0;
+  }
+  .coin {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: gold;
+    font-size: 80px;
+    line-height: 200px;
+    margin: 20px auto;
+    cursor: pointer;
+    user-select: none;
+  }
+  .coin:active {
+    transform: scale(0.9);
+  }
+  button {
+    background: #2AABEE;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Моя игра</h1>
+  <div class="score">Монет: <span id="score">0</span></div>
+  <div class="coin" id="coin">🪙</div>
+  <button onclick="buyUpgrade()">Купить +1 к тапу (цена: <span id="price">10</span>)</button>
+
+  <script>
+    let score = 0;
+    let tapPower = 1;
+    let upgradeCost = 10;
+
+    const coin = document.getElementById('coin');
+
+    coin.onclick = function() {
+      score = score + tapPower;
+      document.getElementById('score').textContent = score;
+    };
+
+    function buyUpgrade() {
+      if (score >= upgradeCost) {
+        score = score - upgradeCost;
+        tapPower = tapPower + 1;
+        upgradeCost = upgradeCost * 2;
+        document.getElementById('score').textContent = score;
+        document.getElementById('price').textContent = upgradeCost;
+        alert('Куплено! Теперь за тап: ' + tapPower);
+      } else {
+        alert('Не хватает монет!');
+      }
+    }
+  </script>
+
+</body>
+</html>
