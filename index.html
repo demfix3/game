@@ -57,6 +57,26 @@
     let tapPower = 1;
     let upgradeCost = 10;
 
+    function loadProgress() {
+      const saved = localStorage.getItem('tapgame');
+      if (saved) {
+        const data = JSON.parse(saved);
+        score = data.score || 0;
+        tapPower = data.tapPower || 1;
+        upgradeCost = data.upgradeCost || 10;
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem('tapgame', JSON.stringify({
+        score: score,
+        tapPower: tapPower,
+        upgradeCost: upgradeCost
+      }));
+    }
+
+    setInterval(saveProgress, 3000);
+
     const coin = document.getElementById('coin');
 
     coin.onclick = function() {
@@ -76,6 +96,10 @@
         alert('Не хватает монет!');
       }
     }
+
+    loadProgress();
+    document.getElementById('score').textContent = score;
+    document.getElementById('price').textContent = upgradeCost;
   </script>
 
 </body>
