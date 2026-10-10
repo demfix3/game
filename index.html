@@ -17,7 +17,7 @@
   .top-bar {
     display: flex; align-items: center; justify-content: space-between;
     background: rgba(44, 44, 62, 0.6); border-radius: 14px;
-    padding: 10px 14px; margin-bottom: 12px;
+    padding: 10px 14px; margin-bottom: 10px;
     backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);
   }
   .balance { display: flex; flex-direction: column; }
@@ -31,9 +31,31 @@
     border: 1px solid rgba(255,255,255,0.1); touch-action: manipulation;
   }
   .hamburger span { width: 20px; height: 2px; background: white; border-radius: 2px; }
+
+  .level-bar {
+    width: 100%; background: rgba(44, 44, 62, 0.6);
+    border-radius: 14px; padding: 10px 14px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .level-bar-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .level-bar-title { font-size: 14px; font-weight: 600; color: #FFD700; }
+  .level-bar-count { font-size: 12px; color: #aaa; }
+  .level-bar-progress {
+    width: 100%; height: 8px; background: #2c2c3e;
+    border-radius: 4px; overflow: hidden;
+  }
+  .level-bar-fill {
+    height: 100%; background: linear-gradient(90deg, #FFD700, #FFA500);
+    width: 0%; transition: width 0.3s;
+  }
+
   .energy-bar {
     width: 100%; height: 22px; background: #2c2c3e; border-radius: 11px;
-    margin-bottom: 12px; position: relative; overflow: hidden;
+    margin-bottom: 10px; position: relative; overflow: hidden;
     border: 1px solid #3a3a4e;
   }
   .energy-fill {
@@ -46,11 +68,11 @@
     font-size: 12px; font-weight: bold; color: white;
     text-shadow: 0 0 4px rgba(0,0,0,0.6);
   }
-  .score-block { text-align: center; margin-bottom: 8px; }
+  .score-block { text-align: center; margin-bottom: 6px; }
   .score-label { font-size: 12px; color: #888; letter-spacing: 1px; }
-  .score { font-size: 38px; color: gold; font-weight: bold; text-shadow: 0 0 20px rgba(255,215,0,0.4); }
+  .score { font-size: 36px; color: gold; font-weight: bold; text-shadow: 0 0 20px rgba(255,215,0,0.4); }
   .per-tap { font-size: 13px; color: #aaa; margin-top: 2px; }
-  .coin-wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 220px; }
+  .coin-wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 200px; }
   .coin {
     width: 55vw; height: 55vw; max-width: 240px; max-height: 240px;
     border-radius: 50%;
@@ -268,6 +290,7 @@
   .offline-banner.active { display: block; }
   .offline-title { font-size: 14px; opacity: 0.9; margin-bottom: 4px; }
   .offline-amount { font-size: 24px; font-weight: bold; }
+  .offline-energy { font-size: 16px; margin-top: 2px; }
   .offline-time { font-size: 12px; opacity: 0.8; margin-top: 4px; }
 </style>
 </head>
@@ -276,6 +299,7 @@
   <div class="offline-banner" id="offlineBanner">
     <div class="offline-title">Пока тебя не было</div>
     <div class="offline-amount" id="offlineAmount">+0 🪙</div>
+    <div class="offline-energy" id="offlineEnergy"></div>
     <div class="offline-time" id="offlineTime"></div>
   </div>
 
@@ -286,6 +310,19 @@
     </div>
     <div class="hamburger" id="hamburger">
       <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="level-bar">
+    <div class="level-bar-top">
+      <div class="level-bar-title">🏆 Уровень <span id="levelTop">1</span></div>
+      <div class="level-bar-count">
+        <span id="tapsDone">0</span> / <span id="tapsNeeded">1000</span> тапов
+        <span style="color: #FFD700; margin-left: 4px;">(<span id="levelPct">0</span>%)</span>
+      </div>
+    </div>
+    <div class="level-bar-progress">
+      <div class="level-bar-fill" id="levelFill"></div>
     </div>
   </div>
 
@@ -388,8 +425,8 @@
     const BOT_USERNAME = 'igra2026_bot';
     const DAILY_REWARDS = [1000, 2000, 3500, 5000, 7500, 10000, 25000];
     const REF_BONUS = 5000;
-    const OFFLINE_RATE = 0.5;        // 0.5 × тап в секунду
-    const OFFLINE_MAX_HOURS = 3;     // максимум 3 часа офлайн-дохода
+    const OFFLINE_RATE = 0.5;
+    const OFFLINE_MAX_HOURS = 3;
 
     let score = 0;
     let energy = 100;
@@ -410,17 +447,45 @@
 
     let lastOnlineTime = Date.now();
 
+    // === ФОРМУЛЫ ===
+    // Уровень: нужно (уровень × 500 + 500) тапов
+    function tapsForLevel(lvl) {
+      // Общее число тапов, чтобы достичь уровня lvl
+      let total = 0;
+      for (let i = 0; i < lvl; i++) {
+        total += (i + 1) * 500 + 500;
+      }
+      return total;
+    }
+
+    // Бонус: уровень × 100 монет
+    function levelBonus(lvl) {
+      return lvl * 100;
+    }
+
+    // Сила тапа: 1 + level × 1.04^level
     function getTapPowerByLevel(lvl) {
       if (lvl === 0) return 1;
-      return Math.floor(1 + lvl * Math.pow(1.05, lvl));
+      return Math.floor(1 + lvl * Math.pow(1.04, lvl));
     }
-    function tapUpgradeCost() { return Math.floor(50 * Math.pow(1.15, tapLevel)); }
-    function energyUpgradeCost() { return Math.floor(50 * Math.pow(1.15, energyLevel)); }
-    function regenUpgradeCost() { return Math.floor(300 * Math.pow(1.25, regenLevel)); }
-    function tapsForLevel(lvl) { return lvl * lvl * 100; }
+
+    // Цена тапа: 30 × 1.18^level
+    function tapUpgradeCost() {
+      return Math.floor(30 * Math.pow(1.18, tapLevel));
+    }
+
+    // Цена энергии: 30 × 1.18^level
+    function energyUpgradeCost() {
+      return Math.floor(30 * Math.pow(1.18, energyLevel));
+    }
+
+    // Цена регена: 150 × 1.30^level
+    function regenUpgradeCost() {
+      return Math.floor(150 * Math.pow(1.30, regenLevel));
+    }
 
     function loadProgress() {
-      const saved = localStorage.getItem('tapgame_v4');
+      const saved = localStorage.getItem('tapgame_v5');
       if (saved) {
         const d = JSON.parse(saved);
         score = d.score || 0;
@@ -443,7 +508,7 @@
 
     function saveProgress() {
       lastOnlineTime = Date.now();
-      localStorage.setItem('tapgame_v4', JSON.stringify({
+      localStorage.setItem('tapgame_v5', JSON.stringify({
         score: score, energy: energy, maxEnergy: maxEnergy, regen: regen,
         tapPower: tapPower, tapLevel: tapLevel, energyLevel: energyLevel,
         regenLevel: regenLevel, totalTaps: totalTaps,
@@ -454,57 +519,51 @@
       }));
     }
 
-    // === ОФЛАЙН-ДОХОД ===
     function applyOfflineProgress() {
       const now = Date.now();
       const elapsedMs = now - lastOnlineTime;
-      if (elapsedMs < 10000) return; // меньше 10 секунд — не считаем
+      if (elapsedMs < 10000) return;
 
       const elapsedSec = elapsedMs / 1000;
 
-      // Офлайн-энергия: восстанавливается до максимума
       const energyGain = regen * elapsedSec;
       const newEnergy = Math.min(maxEnergy, energy + energyGain);
       const actualEnergyGain = newEnergy - energy;
       energy = newEnergy;
 
-      // Офлайн-доход монет
       const maxSec = OFFLINE_MAX_HOURS * 3600;
       const effectiveSec = Math.min(elapsedSec, maxSec);
       const coinGain = Math.floor(tapPower * OFFLINE_RATE * effectiveSec);
 
       if (coinGain > 0 || actualEnergyGain > 1) {
         score += coinGain;
-        showOfflineBanner(coinGain, elapsedSec);
+        showOfflineBanner(coinGain, actualEnergyGain, elapsedSec);
       }
     }
 
-    function showOfflineBanner(coinGain, elapsedSec) {
+    function showOfflineBanner(coinGain, energyGain, elapsedSec) {
       const banner = document.getElementById('offlineBanner');
-      const amountEl = document.getElementById('offlineAmount');
-      const timeEl = document.getElementById('offlineTime');
-
-      amountEl.textContent = '+' + coinGain.toLocaleString('ru') + ' 🪙';
-
-      let timeText = '';
-      if (elapsedSec < 60) {
-        timeText = 'Тебя не было ' + Math.floor(elapsedSec) + ' сек';
-      } else if (elapsedSec < 3600) {
-        timeText = 'Тебя не было ' + Math.floor(elapsedSec / 60) + ' мин';
+      document.getElementById('offlineAmount').textContent = '+' + coinGain.toLocaleString('ru') + ' 🪙';
+      const energyEl = document.getElementById('offlineEnergy');
+      if (energyGain > 1) {
+        energyEl.textContent = '+' + Math.floor(energyGain) + ' ⚡';
       } else {
+        energyEl.textContent = '';
+      }
+      let timeText = '';
+      if (elapsedSec < 60) timeText = 'Тебя не было ' + Math.floor(elapsedSec) + ' сек';
+      else if (elapsedSec < 3600) timeText = 'Тебя не было ' + Math.floor(elapsedSec / 60) + ' мин';
+      else {
         const hours = Math.floor(elapsedSec / 3600);
         const mins = Math.floor((elapsedSec % 3600) / 60);
         timeText = 'Тебя не было ' + hours + ' ч ' + mins + ' мин';
       }
       if (elapsedSec > OFFLINE_MAX_HOURS * 3600) {
-        timeText += ' (учтено только ' + OFFLINE_MAX_HOURS + ' ч)';
+        timeText += ' (учтено ' + OFFLINE_MAX_HOURS + ' ч)';
       }
-      timeEl.textContent = timeText;
-
+      document.getElementById('offlineTime').textContent = timeText;
       banner.classList.add('active');
-      setTimeout(function() {
-        banner.classList.remove('active');
-      }, 5000);
+      setTimeout(function() { banner.classList.remove('active'); }, 5000);
     }
 
     setInterval(saveProgress, 3000);
@@ -514,8 +573,7 @@
     });
 
     const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name)
-      ? tg.initDataUnsafe.user.first_name
-      : 'Игрок';
+      ? tg.initDataUnsafe.user.first_name : 'Игрок';
     const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'unknown';
 
     document.getElementById('menuName').textContent = userName;
@@ -526,9 +584,23 @@
       document.getElementById('score').textContent = score;
       document.getElementById('perTap').textContent = tapPower;
       document.getElementById('menuLevel').textContent = playerLevel;
+
       const pct = (energy / maxEnergy) * 100;
       document.getElementById('energyFill').style.width = Math.min(100, pct) + '%';
       document.getElementById('energyText').textContent = Math.floor(energy) + ' / ' + maxEnergy + ' ⚡';
+
+      // Уровень сверху
+      document.getElementById('levelTop').textContent = playerLevel;
+      const currentLevelTaps = tapsForLevel(playerLevel - 1);
+      const nextLevelTaps = tapsForLevel(playerLevel);
+      const tapsInLevel = totalTaps - currentLevelTaps;
+      const tapsForNext = nextLevelTaps - currentLevelTaps;
+      document.getElementById('tapsDone').textContent = tapsInLevel;
+      document.getElementById('tapsNeeded').textContent = tapsForNext;
+      const levelPct = Math.min(100, Math.max(0, (tapsInLevel / tapsForNext) * 100));
+      document.getElementById('levelFill').style.width = levelPct + '%';
+      document.getElementById('levelPct').textContent = Math.floor(levelPct);
+
       renderUpgrades();
     }
 
@@ -543,14 +615,17 @@
       score += tapPower;
       energy -= 1;
       totalTaps += 1;
+
       const needed = tapsForLevel(playerLevel);
       if (totalTaps >= needed) {
         playerLevel += 1;
-        const bonus = playerLevel * 500;
+        const bonus = levelBonus(playerLevel);
         score += bonus;
-        if (tg) tg.showAlert('Новый уровень ' + playerLevel + '! Бонус: +' + bonus);
-        else alert('Новый уровень ' + playerLevel + '! Бонус: +' + bonus);
+        const nextNeeded = tapsForLevel(playerLevel) - tapsForLevel(playerLevel - 1);
+        if (tg) tg.showAlert('🎉 Новый уровень ' + playerLevel + '! Бонус: +' + bonus + ' монет. До следующего: ' + nextNeeded + ' тапов');
+        else alert('🎉 Новый уровень ' + playerLevel + '! Бонус: +' + bonus);
       }
+
       updateUI();
       coin.classList.remove('tap');
       void coin.offsetWidth;
@@ -576,7 +651,6 @@
     coin.addEventListener('touchstart', function(e) { e.preventDefault(); tapCoin(e); }, { passive: false });
     coin.addEventListener('click', function(e) { if (e.detail === 0) return; tapCoin(e); });
 
-    // Энергия восстанавливается медленно — 0.5 в секунду
     setInterval(function() {
       if (energy < maxEnergy) {
         energy = Math.min(maxEnergy, energy + regen);
@@ -611,11 +685,11 @@
       const energyCost = energyUpgradeCost();
       const regenCost = regenUpgradeCost();
       const nextTapPower = getTapPowerByLevel(tapLevel + 1);
-      const nextMaxEnergy = maxEnergy + 50;
+      const nextMaxEnergy = maxEnergy + 25;
       const nextRegen = (regen + 0.5).toFixed(1);
       list.innerHTML = '';
       list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">⚡</div><div class="upgrade-body"><div class="upgrade-name">Сила тапа</div><div class="upgrade-effect">+' + (nextTapPower - tapPower) + ' за тап (→ ' + nextTapPower + ')</div><div class="upgrade-level">Уровень ' + tapLevel + ' / 100</div></div><button class="upgrade-buy" ' + (score < tapCost ? 'disabled' : '') + ' onclick="buyTap()">' + tapCost + ' 🪙</button></div>';
-      list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">🔋</div><div class="upgrade-body"><div class="upgrade-name">Макс. энергия</div><div class="upgrade-effect">+50 ⚡ (→ ' + nextMaxEnergy + ')</div><div class="upgrade-level">Уровень ' + energyLevel + ' / 100</div></div><button class="upgrade-buy" ' + (score < energyCost ? 'disabled' : '') + ' onclick="buyEnergy()">' + energyCost + ' 🪙</button></div>';
+      list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">🔋</div><div class="upgrade-body"><div class="upgrade-name">Макс. энергия</div><div class="upgrade-effect">+25 ⚡ (→ ' + nextMaxEnergy + ')</div><div class="upgrade-level">Уровень ' + energyLevel + ' / 100</div></div><button class="upgrade-buy" ' + (score < energyCost ? 'disabled' : '') + ' onclick="buyEnergy()">' + energyCost + ' 🪙</button></div>';
       list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">♻️</div><div class="upgrade-body"><div class="upgrade-name">Восстановление</div><div class="upgrade-effect">+0.5 ⚡/сек (→ ' + nextRegen + ')</div><div class="upgrade-level">Уровень ' + regenLevel + ' / 50</div></div><button class="upgrade-buy" ' + (score < regenCost ? 'disabled' : '') + ' onclick="buyRegen()">' + regenCost + ' 🪙</button></div>';
     }
 
@@ -633,7 +707,7 @@
       if (score < cost) return;
       score -= cost;
       energyLevel += 1;
-      maxEnergy += 50;
+      maxEnergy += 25;
       updateUI();
       if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     };
@@ -733,11 +807,9 @@
       const now = Date.now();
       const day = 24 * 60 * 60 * 1000;
       const status = document.getElementById('dailyStatus');
-      if (dailyStreak >= 7) {
-        status.textContent = '🏆 Ты прошёл все 7 дней! Завтра начнётся новый цикл.';
-      } else if (now - lastDailyTime >= day) {
-        status.textContent = 'Ты можешь забрать бонус за день ' + (dailyStreak + 1) + '!';
-      } else {
+      if (dailyStreak >= 7) status.textContent = '🏆 Ты прошёл все 7 дней! Завтра начнётся новый цикл.';
+      else if (now - lastDailyTime >= day) status.textContent = 'Ты можешь забрать бонус за день ' + (dailyStreak + 1) + '!';
+      else {
         const left = Math.ceil((day - (now - lastDailyTime)) / (60 * 60 * 1000));
         status.textContent = 'Следующий бонус через ' + left + ' ч.';
       }
@@ -783,7 +855,6 @@
     applyOfflineProgress();
     updateUI();
 
-    // Обновлять lastOnlineTime каждые 3 секунды, пока игра открыта
     setInterval(function() { lastOnlineTime = Date.now(); }, 3000);
   </script>
 </body>
