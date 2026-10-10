@@ -253,9 +253,15 @@
     let tapLevel = 0, energyLevel = 0, regenLevel = 0, totalTaps = 0, playerLevel = 1;
     let refCount = 0, refClaimed = 0, dailyStreak = 0, lastDailyTime = 0;
     let isSaving = false;
-
-    const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name) ? tg.initDataUnsafe.user.first_name : 'Игрок';
+   
     const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : null;
+const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.first_name : 'Игрок';
+console.log('=== TELEGRAM DEBUG ===');
+console.log('tg:', tg ? 'есть' : 'НЕТ');
+console.log('initDataUnsafe:', tg && tg.initDataUnsafe ? 'есть' : 'НЕТ');
+console.log('user:', tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? 'есть' : 'НЕТ');
+console.log('userId:', userId);
+console.log('userName:', userName);
 
     let toastTimeout = null;
     function showToast(icon, title, text, type) {
