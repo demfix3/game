@@ -132,7 +132,7 @@
     <div class="balance">
       <div class="balance-label">БАЛАНС</div>
       <div class="balance-value"><span id="balanceTop">0</span> 🪙</div>
-      <div class="version-badge">v14 · URL-ID</div>
+      <div class="version-badge">v15 · STARTPARAM</div>
     </div>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
@@ -251,15 +251,17 @@
     let isLoading = true;
     let saveStatus = '—';
 
-    // ⚠️ ВАЖНО: сначала URL, потом Telegram
+    // ⚠️ ID: сначала Telegram, потом startapp (из t.me), потом URL
     const urlId = new URLSearchParams(window.location.search).get('id');
+    const startParam = (tg && tg.initDataUnsafe) ? tg.initDataUnsafe.start_param : null;
     const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name) ? tg.initDataUnsafe.user.first_name : 'Игрок';
     const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user)
       ? tg.initDataUnsafe.user.id
-      : (urlId ? urlId : null);
+      : (startParam ? startParam : (urlId ? urlId : null));
 
     console.log('=== DEBUG ===');
     console.log('urlId:', urlId);
+    console.log('startParam:', startParam);
     console.log('userId:', userId);
     console.log('tg:', tg ? 'OK' : 'NULL');
 
