@@ -131,8 +131,8 @@
   <div class="top-bar">
     <div class="balance">
       <div class="balance-label">БАЛАНС</div>
-      <div class="balance-value"><span id="balanceTop">0</span> 🪙</div>
-      <div class="version-badge">v16 · SMART-SAVE</div>
+      <div class="balance-value"><span id="balanceTop">...</span> 🪙</div>
+      <div class="version-badge">v17 · LOADING-FIX</div>
     </div>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
@@ -327,7 +327,6 @@
       })
       .then(r => r.json())
       .then(data => {
-        // ⚠️ ГЛАВНЫЙ ФИКС: если сервер вернул current (IGNORED) - синхронизируем локальный score
         if (data.ignored && data.current) {
           console.log('IGNORED - syncing from server:', data.current);
           score = data.current.score || score;
@@ -351,8 +350,8 @@
     document.getElementById('menuAvatar').textContent = userName.charAt(0).toUpperCase();
 
     function updateUI() {
-      document.getElementById('balanceTop').textContent = score;
-      document.getElementById('score').textContent = score;
+      document.getElementById('balanceTop').textContent = isLoading ? '...' : score;
+      document.getElementById('score').textContent = isLoading ? '...' : score;
       document.getElementById('perTap').textContent = tapPower;
       const pct = (energy / maxEnergy) * 100;
       document.getElementById('energyFill').style.width = Math.min(100, pct) + '%';
