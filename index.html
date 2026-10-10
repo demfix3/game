@@ -66,6 +66,7 @@
   .menu-btn-blue { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
   .menu-btn-orange { background: linear-gradient(135deg, #f97316, #ea580c); }
   .menu-btn-pink { background: linear-gradient(135deg, #ec4899, #be185d); }
+  .menu-btn-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); }
   .upgrades-screen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #0f0f1a, #0a0a14); z-index: 1002; padding: 16px; overflow-y: auto; display: none; }
   .upgrades-screen.active { display: block; }
   .upgrades-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
@@ -96,6 +97,8 @@
   .modal-btn { width: 100%; background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border: none; border-radius: 14px; padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 10px; box-shadow: 0 4px 20px rgba(139,92,246,0.4); }
   .modal-btn-green { background: linear-gradient(135deg, #10b981, #059669); }
   .modal-btn-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1c1c1e; }
+  .promo-input { width: 100%; padding: 14px; border-radius: 14px; border: 1px solid rgba(139,92,246,0.4); background: rgba(0,0,0,0.4); color: white; font-size: 18px; text-align: center; letter-spacing: 3px; text-transform: uppercase; font-weight: 800; margin-bottom: 14px; outline: none; }
+  .promo-input::placeholder { color: #666; letter-spacing: 2px; }
   .daily-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
   .daily-day { background: rgba(28,28,46,0.8); border-radius: 12px; padding: 14px 6px; text-align: center; border: 2px solid transparent; position: relative; }
   .daily-day.claimed { background: linear-gradient(135deg, #10b981, #059669); border-color: #34d399; }
@@ -132,7 +135,7 @@
     <div class="balance">
       <div class="balance-label">БАЛАНС</div>
       <div class="balance-value"><span id="balanceTop">...</span> 🪙</div>
-      <div class="version-badge">v18 · NAMES</div>
+      <div class="version-badge">v19 · PROMO</div>
     </div>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
@@ -172,6 +175,7 @@
     <button class="menu-btn menu-btn-purple" id="openUpgrades"><span class="menu-btn-icon">⚡</span><span>Улучшения</span></button>
     <button class="menu-btn menu-btn-green" id="openRef"><span class="menu-btn-icon">👥</span><span>Пригласить друга</span></button>
     <button class="menu-btn menu-btn-blue" id="openDaily"><span class="menu-btn-icon">🎁</span><span>Ежедневный бонус</span></button>
+    <button class="menu-btn menu-btn-cyan" id="openPromo"><span class="menu-btn-icon">🎫</span><span>Промокод</span></button>
     <button class="menu-btn menu-btn-orange" id="openSupport"><span class="menu-btn-icon">💬</span><span>Поддержка</span></button>
   </div>
 
@@ -203,9 +207,7 @@
   <div class="modal" id="leaderboardModal">
     <div class="modal-content">
       <div class="modal-title">🏆 Топ-10 по тапам</div>
-      <div class="leaderboard-list" id="leaderboardList">
-        <div class="lb-loading">Загрузка...</div>
-      </div>
+      <div class="leaderboard-list" id="leaderboardList"><div class="lb-loading">Загрузка...</div></div>
       <button class="close-btn" id="closeLeaderboard">Закрыть</button>
     </div>
   </div>
@@ -220,6 +222,16 @@
       <button class="modal-btn modal-btn-green" id="shareRefBtn">📤 Поделиться в Telegram</button>
       <button class="modal-btn modal-btn-gold" id="checkRefBtn">✅ Проверить друзей</button>
       <button class="close-btn" id="closeRef">Закрыть</button>
+    </div>
+  </div>
+
+  <div class="modal" id="promoModal">
+    <div class="modal-content">
+      <div class="modal-title">🎫 Промокод</div>
+      <div style="text-align: center; color: #aaa; font-size: 13px; margin-bottom: 14px;">Введи код и получи награду</div>
+      <input type="text" class="promo-input" id="promoInput" placeholder="ВВЕДИ КОД" maxlength="20">
+      <button class="modal-btn modal-btn-gold" id="applyPromoBtn">🎁 Активировать</button>
+      <button class="close-btn" id="closePromo">Закрыть</button>
     </div>
   </div>
 
@@ -258,11 +270,6 @@
       ? tg.initDataUnsafe.user.id
       : (startParam ? startParam : (urlId ? urlId : null));
 
-    console.log('=== DEBUG ===');
-    console.log('urlId:', urlId);
-    console.log('startParam:', startParam);
-    console.log('userId:', userId);
-
     let toastTimeout = null;
     function showToast(icon, title, text, type) {
       const toast = document.getElementById('toast');
@@ -293,28 +300,24 @@
     function loadProgress() {
       if (!userId) { isLoading = false; updateUI(); return; }
       isLoading = true;
-      fetch(SERVER_URL + '/load?id=' + userId)
-        .then(r => r.json())
-        .then(data => {
-          console.log('LOAD:', data);
-          if (data.error) { isLoading = false; updateUI(); return; }
-          score = data.score || 0;
-          energy = data.energy !== undefined ? data.energy : 100;
-          maxEnergy = data.maxEnergy || 100;
-          regen = data.regen || 0.5;
-          tapPower = data.tapPower || 1;
-          tapLevel = data.tapLevel || 0;
-          energyLevel = data.energyLevel || 0;
-          regenLevel = data.regenLevel || 0;
-          totalTaps = data.totalTaps || 0;
-          playerLevel = data.playerLevel || 1;
-          refCount = data.refCount || 0;
-          refClaimed = data.refClaimed || 0;
-          isLoading = false;
-          setStatus('✅');
-          updateUI();
-        })
-        .catch(err => { console.log('Load error:', err); isLoading = false; setStatus('❌'); updateUI(); });
+      fetch(SERVER_URL + '/load?id=' + userId).then(r => r.json()).then(data => {
+        if (data.error) { isLoading = false; updateUI(); return; }
+        score = data.score || 0;
+        energy = data.energy !== undefined ? data.energy : 100;
+        maxEnergy = data.maxEnergy || 100;
+        regen = data.regen || 0.5;
+        tapPower = data.tapPower || 1;
+        tapLevel = data.tapLevel || 0;
+        energyLevel = data.energyLevel || 0;
+        regenLevel = data.regenLevel || 0;
+        totalTaps = data.totalTaps || 0;
+        playerLevel = data.playerLevel || 1;
+        refCount = data.refCount || 0;
+        refClaimed = data.refClaimed || 0;
+        isLoading = false;
+        setStatus('✅');
+        updateUI();
+      }).catch(() => { isLoading = false; setStatus('❌'); updateUI(); });
     }
 
     function saveProgress() {
@@ -324,19 +327,10 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, name: userName, score, energy, maxEnergy, regen, tapPower, tapLevel, energyLevel, regenLevel, totalTaps, playerLevel })
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (data.ignored && data.current) {
-          console.log('IGNORED - syncing from server:', data.current);
-          score = data.current.score || score;
-          totalTaps = data.current.totalTaps || totalTaps;
-          updateUI();
-        }
+      }).then(r => r.json()).then(data => {
+        if (data.ignored && data.current) { score = data.current.score || score; totalTaps = data.current.totalTaps || totalTaps; updateUI(); }
         setStatus('✅');
-      })
-      .catch(err => { setStatus('❌'); })
-      .finally(() => { isSaving = false; });
+      }).catch(() => setStatus('❌')).finally(() => { isSaving = false; });
     }
 
     setInterval(saveProgress, 2000);
@@ -374,10 +368,7 @@
       if (isLoading) return;
       if (energy < 1) {
         const now = Date.now();
-        if (now - lastNoEnergyToast > 2000) {
-          lastNoEnergyToast = now;
-          showToast('⚡', 'Энергия закончилась!', 'Подожди', 'red');
-        }
+        if (now - lastNoEnergyToast > 2000) { lastNoEnergyToast = now; showToast('⚡', 'Энергия закончилась!', 'Подожди', 'red'); }
         return;
       }
       score += tapPower;
@@ -394,8 +385,7 @@
       saveProgress();
       coin.classList.remove('tap'); void coin.offsetWidth; coin.classList.add('tap');
       let x = window.innerWidth / 2, y = window.innerHeight / 2;
-      if (e.touches && e.touches[0]) { x = e.touches[0].clientX; y = e.touches[0].clientY; }
-      else if (e.clientX) { x = e.clientX; y = e.clientY; }
+      if (e.touches && e.touches[0]) { x = e.touches[0].clientX; y = e.touches[0].clientY; } else if (e.clientX) { x = e.clientX; y = e.clientY; }
       showFloat(x, y);
       if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     }
@@ -420,47 +410,31 @@
     document.getElementById('menuClose').onclick = () => { menuPanel.classList.remove('active'); menuOverlay.classList.remove('active'); };
     menuOverlay.onclick = () => { menuPanel.classList.remove('active'); menuOverlay.classList.remove('active'); };
 
-    document.getElementById('openLeaderboard').onclick = () => {
-      menuPanel.classList.remove('active'); menuOverlay.classList.remove('active');
-      document.getElementById('leaderboardModal').classList.add('active');
-      loadLeaderboard();
-    };
+    // LEADERBOARD
+    document.getElementById('openLeaderboard').onclick = () => { menuPanel.classList.remove('active'); menuOverlay.classList.remove('active'); document.getElementById('leaderboardModal').classList.add('active'); loadLeaderboard(); };
     document.getElementById('closeLeaderboard').onclick = () => document.getElementById('leaderboardModal').classList.remove('active');
     document.getElementById('leaderboardModal').onclick = (e) => { if (e.target.id === 'leaderboardModal') document.getElementById('leaderboardModal').classList.remove('active'); };
 
     function loadLeaderboard() {
       const list = document.getElementById('leaderboardList');
       list.innerHTML = '<div class="lb-loading">Загрузка...</div>';
-      fetch(SERVER_URL + '/leaderboard')
-        .then(r => r.json())
-        .then(data => {
-          if (!Array.isArray(data) || data.length === 0) {
-            list.innerHTML = '<div class="lb-loading">Пока никого нет. Стань первым! 🏆</div>';
-            return;
-          }
-          list.innerHTML = '';
-          data.forEach((p, i) => {
-            const rank = i + 1;
-            let medal = rank + '.';
-            let cls = '';
-            if (rank === 1) { medal = '🥇'; cls = 'top1'; }
-            else if (rank === 2) { medal = '🥈'; cls = 'top2'; }
-            else if (rank === 3) { medal = '🥉'; cls = 'top3'; }
-            if (String(p.id) === String(userId)) cls += ' me';
-            const displayName = p.name || ('ID: ' + p.id);
-            list.innerHTML += '<div class="lb-row ' + cls + '">' +
-              '<div class="lb-rank">' + medal + '</div>' +
-              '<div class="lb-info"><div class="lb-name">' + displayName + (String(p.id) === String(userId) ? ' (ты)' : '') + '</div><div class="lb-taps">👆 тапов</div></div>' +
-              '<div class="lb-taps-num">' + (p.totalTaps || 0).toLocaleString('ru') + '</div>' +
-              '</div>';
-          });
-        })
-        .catch(err => {
-          console.log('Leaderboard error:', err);
-          list.innerHTML = '<div class="lb-loading">❌ Ошибка загрузки.</div>';
+      fetch(SERVER_URL + '/leaderboard').then(r => r.json()).then(data => {
+        if (!Array.isArray(data) || data.length === 0) { list.innerHTML = '<div class="lb-loading">Пока никого нет 🏆</div>'; return; }
+        list.innerHTML = '';
+        data.forEach((p, i) => {
+          const rank = i + 1;
+          let medal = rank + '.', cls = '';
+          if (rank === 1) { medal = '🥇'; cls = 'top1'; }
+          else if (rank === 2) { medal = '🥈'; cls = 'top2'; }
+          else if (rank === 3) { medal = '🥉'; cls = 'top3'; }
+          if (String(p.id) === String(userId)) cls += ' me';
+          const dn = p.name || ('ID: ' + p.id);
+          list.innerHTML += '<div class="lb-row ' + cls + '"><div class="lb-rank">' + medal + '</div><div class="lb-info"><div class="lb-name">' + dn + (String(p.id) === String(userId) ? ' (ты)' : '') + '</div><div class="lb-taps">👆 тапов</div></div><div class="lb-taps-num">' + (p.totalTaps || 0).toLocaleString('ru') + '</div></div>';
         });
+      }).catch(() => list.innerHTML = '<div class="lb-loading">❌ Ошибка</div>');
     }
 
+    // UPGRADES
     const upgradesScreen = document.getElementById('upgradesScreen');
     document.getElementById('openUpgrades').onclick = () => { menuPanel.classList.remove('active'); menuOverlay.classList.remove('active'); upgradesScreen.classList.add('active'); renderUpgrades(); };
     document.getElementById('backFromUpgrades').onclick = () => upgradesScreen.classList.remove('active');
@@ -480,6 +454,7 @@
     window.buyEnergy = () => { const c = energyUpgradeCost(); if (score < c) { showToast('💰', 'Мало монет', '', 'red'); return; } score -= c; energyLevel += 1; maxEnergy += 25; updateUI(); saveProgress(); showToast('🔋', 'Улучшено!', 'Макс: ' + maxEnergy, 'blue'); };
     window.buyRegen = () => { const c = regenUpgradeCost(); if (score < c) { showToast('💰', 'Мало монет', '', 'red'); return; } score -= c; regenLevel += 1; regen = parseFloat((regen + 0.5).toFixed(1)); updateUI(); saveProgress(); showToast('♻️', 'Улучшено!', 'Реген: ' + regen, 'blue'); };
 
+    // PROFILE
     document.getElementById('openProfile').onclick = () => {
       menuPanel.classList.remove('active'); menuOverlay.classList.remove('active');
       document.getElementById('statName').textContent = userName;
@@ -497,6 +472,7 @@
     document.getElementById('closeProfile').onclick = () => document.getElementById('profileModal').classList.remove('active');
     document.getElementById('profileModal').onclick = (e) => { if (e.target.id === 'profileModal') document.getElementById('profileModal').classList.remove('active'); };
 
+    // REFERRAL
     const refLink = 'https://t.me/' + BOT_USERNAME + '?start=ref_' + (userId || 'unknown');
     document.getElementById('openRef').onclick = () => { menuPanel.classList.remove('active'); menuOverlay.classList.remove('active'); document.getElementById('refCount').textContent = refCount; document.getElementById('refLink').textContent = refLink; document.getElementById('refModal').classList.add('active'); };
     document.getElementById('closeRef').onclick = () => document.getElementById('refModal').classList.remove('active');
@@ -505,6 +481,42 @@
     document.getElementById('shareRefBtn').onclick = () => { const t = '🎮 Зацени игру! Тапай монету!'; const u = 'https://t.me/share/url?url=' + encodeURIComponent(refLink) + '&text=' + encodeURIComponent(t); if (tg) tg.openTelegramLink(u); else window.open(u, '_blank'); };
     document.getElementById('checkRefBtn').onclick = () => { if (!userId) return; fetch(SERVER_URL + '/claimrefs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId }) }).then(r => r.json()).then(data => { if (data.success) { score += data.bonus; refClaimed = refCount; updateUI(); saveProgress(); showToast('🎉', 'Получено!', '+' + data.bonus, 'gold'); } else showToast('👥', 'Новых нет', '', 'blue'); }).catch(() => showToast('❌', 'Ошибка', '', 'red')); };
 
+    // PROMOCODE
+    document.getElementById('openPromo').onclick = () => {
+      menuPanel.classList.remove('active'); menuOverlay.classList.remove('active');
+      document.getElementById('promoInput').value = '';
+      document.getElementById('promoModal').classList.add('active');
+    };
+    document.getElementById('closePromo').onclick = () => document.getElementById('promoModal').classList.remove('active');
+    document.getElementById('promoModal').onclick = (e) => { if (e.target.id === 'promoModal') document.getElementById('promoModal').classList.remove('active'); };
+
+    document.getElementById('applyPromoBtn').onclick = () => {
+      const code = document.getElementById('promoInput').value.trim().toUpperCase();
+      if (!code) { showToast('⚠️', 'Введи код', '', 'red'); return; }
+      if (!userId) { showToast('❌', 'Ошибка авторизации', '', 'red'); return; }
+      fetch(SERVER_URL + '/usepromo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, code })
+      }).then(r => r.json()).then(data => {
+        if (data.success) {
+          score += data.reward;
+          updateUI(); saveProgress();
+          showToast('🎁', 'Промокод активирован!', '+' + data.reward.toLocaleString('ru') + ' 🪙', 'gold');
+          document.getElementById('promoModal').classList.remove('active');
+        } else {
+          const reasons = {
+            not_found: '❌ Промокод не найден',
+            limit: '⏳ Лимит активаций исчерпан',
+            already_used: '👥 Ты уже использовал этот код',
+            no_data: '❌ Ошибка данных'
+          };
+          showToast('⚠️', reasons[data.reason] || 'Ошибка', '', 'red');
+        }
+      }).catch(() => showToast('❌', 'Ошибка сети', '', 'red'));
+    };
+
+    // DAILY
     function renderDaily() {
       const grid = document.getElementById('dailyGrid');
       if (!grid) return;
@@ -526,6 +538,7 @@
     document.getElementById('dailyModal').onclick = (e) => { if (e.target.id === 'dailyModal') document.getElementById('dailyModal').classList.remove('active'); };
     document.getElementById('claimDailyBtn').onclick = () => { const now = Date.now(), day = 86400000; if (dailyStreak >= 7) { showToast('🏆', 'Все 7 дней!', '', 'gold'); return; } if (lastDailyTime > 0 && now - lastDailyTime < day) { showToast('⏳', 'Подожди', '', 'red'); return; } const reward = DAILY_REWARDS[dailyStreak]; score += reward; dailyStreak += 1; lastDailyTime = now; updateUI(); renderDaily(); saveProgress(); showToast('🎁', 'Бонус!', '+' + reward, 'gold'); };
 
+    // SUPPORT
     document.getElementById('openSupport').onclick = () => { menuPanel.classList.remove('active'); menuOverlay.classList.remove('active'); const t = encodeURIComponent('Здравствуйте! 👋\n\nПишу из игры.'); const u = 'https://t.me/' + SUPPORT_USERNAME + '?text=' + t; if (tg) tg.openTelegramLink(u); else window.open(u, '_blank'); showToast('💬', 'Открываю чат', '', 'orange'); };
 
     loadProgress();
