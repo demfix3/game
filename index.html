@@ -328,7 +328,7 @@ console.log('userName:', userName);
       if (document.hidden) saveProgress();
     });
 
-    document.getElementById('menuName').textContent = userName;
+   document.getElementById('menuName').textContent = userName + ' (ID: ' + (userId || 'НЕТ') + ')';
     document.getElementById('menuAvatar').textContent = userName.charAt(0).toUpperCase();
 
     function updateUI() {
@@ -426,7 +426,7 @@ console.log('userName:', userName);
 
     document.getElementById('openProfile').onclick = () => {
       menuPanel.classList.remove('active'); menuOverlay.classList.remove('active');
-      document.getElementById('statName').textContent = userName;
+      document.getElementById('statName').textContent = userName + ' [ID: ' + (userId || 'НЕТ') + ']';
       document.getElementById('statLevel').textContent = playerLevel;
       document.getElementById('statScore').textContent = score;
       document.getElementById('statTaps').textContent = totalTaps;
