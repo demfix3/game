@@ -132,7 +132,7 @@
     <div class="balance">
       <div class="balance-label">БАЛАНС</div>
       <div class="balance-value"><span id="balanceTop">...</span> 🪙</div>
-      <div class="version-badge">v17 · LOADING-FIX</div>
+      <div class="version-badge">v18 · NAMES</div>
     </div>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
@@ -323,7 +323,7 @@
       fetch(SERVER_URL + '/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, score, energy, maxEnergy, regen, tapPower, tapLevel, energyLevel, regenLevel, totalTaps, playerLevel })
+        body: JSON.stringify({ userId, name: userName, score, energy, maxEnergy, regen, tapPower, tapLevel, energyLevel, regenLevel, totalTaps, playerLevel })
       })
       .then(r => r.json())
       .then(data => {
@@ -447,9 +447,10 @@
             else if (rank === 2) { medal = '🥈'; cls = 'top2'; }
             else if (rank === 3) { medal = '🥉'; cls = 'top3'; }
             if (String(p.id) === String(userId)) cls += ' me';
+            const displayName = p.name || ('ID: ' + p.id);
             list.innerHTML += '<div class="lb-row ' + cls + '">' +
               '<div class="lb-rank">' + medal + '</div>' +
-              '<div class="lb-info"><div class="lb-name">ID: ' + p.id + (String(p.id) === String(userId) ? ' (ты)' : '') + '</div><div class="lb-taps">👆 тапов</div></div>' +
+              '<div class="lb-info"><div class="lb-name">' + displayName + (String(p.id) === String(userId) ? ' (ты)' : '') + '</div><div class="lb-taps">👆 тапов</div></div>' +
               '<div class="lb-taps-num">' + (p.totalTaps || 0).toLocaleString('ru') + '</div>' +
               '</div>';
           });
