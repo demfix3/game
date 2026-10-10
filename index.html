@@ -8,36 +8,15 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
   html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
-  body {
-    font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
-    background: radial-gradient(ellipse at top, #2d2d4a 0%, #1a1a2e 50%, #0a0a14 100%);
-    color: white; display: flex; flex-direction: column;
-    padding: 12px; min-height: 100vh; overflow-y: auto;
-  }
-  .top-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    background: linear-gradient(135deg, rgba(44,44,62,0.8), rgba(30,30,45,0.8));
-    border-radius: 16px; padding: 12px 16px; margin-bottom: 10px;
-    backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  }
+  body { font-family: -apple-system, 'Segoe UI', Arial, sans-serif; background: radial-gradient(ellipse at top, #2d2d4a 0%, #1a1a2e 50%, #0a0a14 100%); color: white; display: flex; flex-direction: column; padding: 12px; min-height: 100vh; overflow-y: auto; }
+  .top-bar { display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, rgba(44,44,62,0.8), rgba(30,30,45,0.8)); border-radius: 16px; padding: 12px 16px; margin-bottom: 10px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
   .balance { display: flex; flex-direction: column; }
   .balance-label { font-size: 10px; color: #888; letter-spacing: 1.5px; font-weight: 600; }
   .balance-value { font-size: 24px; font-weight: 800; color: #FFD700; text-shadow: 0 0 15px rgba(255,215,0,0.5); }
-  .hamburger {
-    width: 44px; height: 44px; border-radius: 14px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 5px; cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; touch-action: manipulation;
-  }
+  .hamburger { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; touch-action: manipulation; }
   .hamburger:active { transform: scale(0.92); background: rgba(255,255,255,0.15); }
   .hamburger span { width: 20px; height: 2.5px; background: white; border-radius: 2px; }
-  .level-bar {
-    background: linear-gradient(135deg, rgba(44,44,62,0.8), rgba(30,30,45,0.8));
-    border-radius: 16px; padding: 12px 16px; margin-bottom: 10px;
-    border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  }
+  .level-bar { background: linear-gradient(135deg, rgba(44,44,62,0.8), rgba(30,30,45,0.8)); border-radius: 16px; padding: 12px 16px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
   .level-bar-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
   .level-bar-title { font-size: 14px; font-weight: 700; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .level-bar-count { font-size: 11px; color: #aaa; font-weight: 500; }
@@ -52,12 +31,7 @@
   .score { font-size: 42px; font-weight: 900; color: #FFD700; text-shadow: 0 0 30px rgba(255,215,0,0.6), 0 2px 4px rgba(0,0,0,0.5); letter-spacing: -1px; }
   .per-tap { font-size: 12px; color: #aaa; margin-top: 2px; background: rgba(255,255,255,0.05); display: inline-block; padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); }
   .coin-wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 200px; position: relative; }
-  .coin {
-    width: 55vw; height: 55vw; max-width: 240px; max-height: 240px; border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #c4b5fd, #8b5cf6 40%, #6366f1 70%, #4338ca);
-    box-shadow: 0 15px 50px rgba(99,102,241,0.6), inset 0 -15px 30px rgba(0,0,0,0.4), inset 0 15px 30px rgba(255,255,255,0.2), 0 0 80px rgba(139,92,246,0.4);
-    display: flex; align-items: center; justify-content: center; font-size: 16vw; cursor: pointer; transition: transform 0.05s; touch-action: manipulation; position: relative; animation: coinFloat 3s ease-in-out infinite;
-  }
+  .coin { width: 55vw; height: 55vw; max-width: 240px; max-height: 240px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #c4b5fd, #8b5cf6 40%, #6366f1 70%, #4338ca); box-shadow: 0 15px 50px rgba(99,102,241,0.6), inset 0 -15px 30px rgba(0,0,0,0.4), inset 0 15px 30px rgba(255,255,255,0.2), 0 0 80px rgba(139,92,246,0.4); display: flex; align-items: center; justify-content: center; font-size: 16vw; cursor: pointer; transition: transform 0.05s; touch-action: manipulation; position: relative; animation: coinFloat 3s ease-in-out infinite; }
   @keyframes coinFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
   .coin::before { content: ''; position: absolute; top: 15%; left: 20%; width: 25%; height: 25%; background: radial-gradient(circle, rgba(255,255,255,0.6), transparent); border-radius: 50%; filter: blur(8px); }
   .coin.tap { animation: pop 0.15s; }
@@ -278,6 +252,7 @@
     let score = 0, energy = 100, maxEnergy = 100, regen = 0.5, tapPower = 1;
     let tapLevel = 0, energyLevel = 0, regenLevel = 0, totalTaps = 0, playerLevel = 1;
     let refCount = 0, refClaimed = 0, dailyStreak = 0, lastDailyTime = 0;
+    let isSaving = false;
 
     const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name) ? tg.initDataUnsafe.user.first_name : 'Игрок';
     const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : null;
@@ -329,16 +304,23 @@
     }
 
     function saveProgress() {
-      if (!userId) return;
+      if (!userId || isSaving) return;
+      isSaving = true;
       fetch(SERVER_URL + '/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
         body: JSON.stringify({ userId, score, energy, maxEnergy, regen, tapPower, tapLevel, energyLevel, regenLevel, totalTaps, playerLevel })
-      }).catch(err => console.log('Save error:', err));
+      }).catch(err => console.log('Save error:', err)).finally(() => { isSaving = false; });
     }
 
     setInterval(saveProgress, 2000);
+
     window.addEventListener('beforeunload', saveProgress);
+    window.addEventListener('pagehide', saveProgress);
+    window.addEventListener('blur', saveProgress);
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) saveProgress();
+    });
 
     document.getElementById('menuName').textContent = userName;
     document.getElementById('menuAvatar').textContent = userName.charAt(0).toUpperCase();
@@ -387,6 +369,7 @@
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
       }
       updateUI();
+      saveProgress();
       coin.classList.remove('tap'); void coin.offsetWidth; coin.classList.add('tap');
       let x = window.innerWidth / 2, y = window.innerHeight / 2;
       if (e.touches && e.touches[0]) { x = e.touches[0].clientX; y = e.touches[0].clientY; }
