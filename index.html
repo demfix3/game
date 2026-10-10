@@ -153,32 +153,64 @@
   .toast {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-120px);
     background: linear-gradient(135deg, rgba(44,44,62,0.98), rgba(30,30,45,0.98));
-    border-radius: 18px; padding: 16px 24px;
-    min-width: 280px; max-width: 90%;
+    border-radius: 20px; padding: 18px 48px 18px 24px;
+    min-width: 300px; max-width: 92%;
     text-align: center; z-index: 3000;
-    box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 40px rgba(255,215,0,0.2);
-    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 50px rgba(255,215,0,0.25);
+    border: 1px solid rgba(255,215,0,0.35);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px);
+    overflow: hidden;
+  }
+  .toast::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, #FFD700, transparent);
+    animation: toastShine 2s infinite;
+  }
+  @keyframes toastShine {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
   }
   .toast.active {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
   }
+  .toast-close {
+    position: absolute; top: 8px; right: 8px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; font-size: 14px; font-weight: bold;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    line-height: 1;
+    padding: 0;
+    z-index: 10;
+  }
+  .toast-close:active {
+    transform: scale(0.85);
+    background: rgba(255,255,255,0.25);
+  }
   .toast-icon { font-size: 36px; margin-bottom: 6px; }
   .toast-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
   .toast-text { font-size: 13px; color: #bbb; }
-  .toast.gold { border-color: rgba(255,215,0,0.5); box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 50px rgba(255,215,0,0.4); }
+  .toast.gold { border-color: rgba(255,215,0,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(255,215,0,0.5); }
   .toast.gold .toast-title { color: #FFD700; }
-  .toast.green { border-color: rgba(16,185,129,0.5); box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 50px rgba(16,185,129,0.4); }
+  .toast.gold::before { background: linear-gradient(90deg, transparent, #FFD700, transparent); }
+  .toast.green { border-color: rgba(16,185,129,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(16,185,129,0.5); }
   .toast.green .toast-title { color: #34d399; }
-  .toast.red { border-color: rgba(239,68,68,0.5); box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 50px rgba(239,68,68,0.4); }
+  .toast.green::before { background: linear-gradient(90deg, transparent, #10b981, transparent); }
+  .toast.red { border-color: rgba(239,68,68,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(239,68,68,0.5); }
   .toast.red .toast-title { color: #f87171; }
-  .toast.blue { border-color: rgba(59,130,246,0.5); box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 50px rgba(59,130,246,0.4); }
+  .toast.red::before { background: linear-gradient(90deg, transparent, #ef4444, transparent); }
+  .toast.blue { border-color: rgba(59,130,246,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(59,130,246,0.5); }
   .toast.blue .toast-title { color: #60a5fa; }
-  .toast.orange { border-color: rgba(249,115,22,0.5); box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 50px rgba(249,115,22,0.4); }
+  .toast.blue::before { background: linear-gradient(90deg, transparent, #3b82f6, transparent); }
+  .toast.orange { border-color: rgba(249,115,22,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(249,115,22,0.5); }
   .toast.orange .toast-title { color: #fb923c; }
+  .toast.orange::before { background: linear-gradient(90deg, transparent, #f97316, transparent); }
 
   .menu-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -457,7 +489,7 @@
   .offline-banner {
     position: fixed; top: 20px; left: 20px; right: 20px;
     background: linear-gradient(135deg, #10b981, #059669);
-    color: white; border-radius: 18px; padding: 18px;
+    color: white; border-radius: 18px; padding: 18px 18px 18px 18px;
     text-align: center; font-weight: 700;
     z-index: 2000; display: none;
     box-shadow: 0 15px 50px rgba(16,185,129,0.5), 0 0 60px rgba(16,185,129,0.3);
@@ -470,6 +502,22 @@
     60% { transform: translateY(10px) scale(1.02); }
     100% { transform: translateY(0) scale(1); opacity: 1; }
   }
+  .offline-close {
+    position: absolute; top: 10px; right: 10px;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+    color: #fff; font-size: 14px; font-weight: bold;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    line-height: 1;
+    padding: 0;
+  }
+  .offline-close:active {
+    transform: scale(0.85);
+    background: rgba(255,255,255,0.3);
+  }
   .offline-title { font-size: 13px; opacity: 0.95; margin-bottom: 6px; letter-spacing: 1px; }
   .offline-amount { font-size: 30px; font-weight: 900; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
   .offline-energy { font-size: 18px; margin-top: 4px; font-weight: 700; }
@@ -479,12 +527,14 @@
 <body>
 
   <div class="toast" id="toast">
+    <button class="toast-close" id="toastClose">✕</button>
     <div class="toast-icon" id="toastIcon">✨</div>
     <div class="toast-title" id="toastTitle"></div>
     <div class="toast-text" id="toastText"></div>
   </div>
 
   <div class="offline-banner" id="offlineBanner">
+    <button class="offline-close" id="offlineClose">✕</button>
     <div class="offline-title">ПОКА ТЕБЯ НЕ БЫЛО</div>
     <div class="offline-amount" id="offlineAmount">+0 🪙</div>
     <div class="offline-energy" id="offlineEnergy"></div>
@@ -660,6 +710,25 @@
       }, 3000);
     }
 
+    function hideToast() {
+      const toast = document.getElementById('toast');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toast.classList.remove('active');
+    }
+
+    document.getElementById('toastClose').addEventListener('click', function(e) {
+      e.stopPropagation();
+      hideToast();
+    });
+
+    function hideOfflineBanner() {
+      document.getElementById('offlineBanner').classList.remove('active');
+    }
+    document.getElementById('offlineClose').addEventListener('click', function(e) {
+      e.stopPropagation();
+      hideOfflineBanner();
+    });
+
     function tapsForLevel(lvl) {
       let total = 0;
       for (let i = 0; i < lvl; i++) {
@@ -744,7 +813,6 @@
       if (elapsedSec > OFFLINE_MAX_HOURS * 3600) timeText += ' (учтено ' + OFFLINE_MAX_HOURS + ' ч)';
       document.getElementById('offlineTime').textContent = timeText;
       banner.classList.add('active');
-      setTimeout(function() { banner.classList.remove('active'); }, 5000);
     }
 
     setInterval(saveProgress, 3000);
@@ -1030,7 +1098,6 @@
       if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     });
 
-    // === ПОДДЕРЖКА ===
     document.getElementById('openSupport').addEventListener('click', function() {
       closeMenu();
       const supportText = encodeURIComponent('Здравствуйте! 👋\n\nПишу из игры.\n\nИнтересует разработка игры для Telegram. Расскажите подробнее про:\n\n• цены\n• сроки\n• примеры\n\nСпасибо!');
