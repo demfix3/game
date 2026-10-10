@@ -185,32 +185,22 @@
     transition: all 0.2s;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-    line-height: 1;
-    padding: 0;
-    z-index: 10;
+    line-height: 1; padding: 0; z-index: 10;
   }
-  .toast-close:active {
-    transform: scale(0.85);
-    background: rgba(255,255,255,0.25);
-  }
+  .toast-close:active { transform: scale(0.85); background: rgba(255,255,255,0.25); }
   .toast-icon { font-size: 36px; margin-bottom: 6px; }
   .toast-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
   .toast-text { font-size: 13px; color: #bbb; }
-  .toast.gold { border-color: rgba(255,215,0,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(255,215,0,0.5); }
+  .toast.gold { border-color: rgba(255,215,0,0.6); }
   .toast.gold .toast-title { color: #FFD700; }
-  .toast.gold::before { background: linear-gradient(90deg, transparent, #FFD700, transparent); }
-  .toast.green { border-color: rgba(16,185,129,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(16,185,129,0.5); }
+  .toast.green { border-color: rgba(16,185,129,0.6); }
   .toast.green .toast-title { color: #34d399; }
-  .toast.green::before { background: linear-gradient(90deg, transparent, #10b981, transparent); }
-  .toast.red { border-color: rgba(239,68,68,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(239,68,68,0.5); }
+  .toast.red { border-color: rgba(239,68,68,0.6); }
   .toast.red .toast-title { color: #f87171; }
-  .toast.red::before { background: linear-gradient(90deg, transparent, #ef4444, transparent); }
-  .toast.blue { border-color: rgba(59,130,246,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(59,130,246,0.5); }
+  .toast.blue { border-color: rgba(59,130,246,0.6); }
   .toast.blue .toast-title { color: #60a5fa; }
-  .toast.blue::before { background: linear-gradient(90deg, transparent, #3b82f6, transparent); }
-  .toast.orange { border-color: rgba(249,115,22,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(249,115,22,0.5); }
+  .toast.orange { border-color: rgba(249,115,22,0.6); }
   .toast.orange .toast-title { color: #fb923c; }
-  .toast.orange::before { background: linear-gradient(90deg, transparent, #f97316, transparent); }
 
   .menu-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -223,8 +213,7 @@
     position: fixed; top: 0; right: -100%; bottom: 0;
     width: 85%; max-width: 380px;
     background: linear-gradient(135deg, #1c1c2e, #15152a);
-    z-index: 1001;
-    padding: 20px; overflow-y: auto;
+    z-index: 1001; padding: 20px; overflow-y: auto;
     transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 1px solid rgba(255,255,255,0.1);
     box-shadow: -20px 0 60px rgba(0,0,0,0.5);
@@ -246,8 +235,7 @@
     margin-bottom: 16px; cursor: pointer;
     border: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0 8px 30px rgba(42,171,238,0.4);
-    transition: transform 0.2s;
-    touch-action: manipulation;
+    transition: transform 0.2s; touch-action: manipulation;
   }
   .profile-card:active { transform: scale(0.97); }
   .profile-avatar {
@@ -256,7 +244,7 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 26px; font-weight: 900; color: #1c1c1e;
     flex-shrink: 0;
-    box-shadow: 0 5px 20px rgba(255,215,0,0.5), inset 0 -3px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 20px rgba(255,215,0,0.5);
   }
   .profile-info { flex: 1; min-width: 0; }
   .profile-name {
@@ -275,44 +263,24 @@
   }
   .menu-btn:active { transform: scale(0.97); background: rgba(255,255,255,0.12); }
   .menu-btn-icon {
-    font-size: 24px;
-    width: 44px; height: 44px;
+    font-size: 24px; width: 44px; height: 44px;
     display: flex; align-items: center; justify-content: center;
     background: rgba(255,255,255,0.1); border-radius: 12px;
     flex-shrink: 0;
   }
-  .menu-btn-purple {
-    background: linear-gradient(135deg, #a855f7, #7c3aed);
-    border-color: rgba(168,85,247,0.4);
-    box-shadow: 0 4px 20px rgba(168,85,247,0.3);
-  }
-  .menu-btn-green {
-    background: linear-gradient(135deg, #10b981, #059669);
-    border-color: rgba(16,185,129,0.4);
-    box-shadow: 0 4px 20px rgba(16,185,129,0.3);
-  }
-  .menu-btn-blue {
-    background: linear-gradient(135deg, #0ea5e9, #0284c7);
-    border-color: rgba(14,165,233,0.4);
-    box-shadow: 0 4px 20px rgba(14,165,233,0.3);
-  }
-  .menu-btn-orange {
-    background: linear-gradient(135deg, #f97316, #ea580c);
-    border-color: rgba(249,115,22,0.4);
-    box-shadow: 0 4px 20px rgba(249,115,22,0.3);
-  }
+  .menu-btn-purple { background: linear-gradient(135deg, #a855f7, #7c3aed); border-color: rgba(168,85,247,0.4); }
+  .menu-btn-green { background: linear-gradient(135deg, #10b981, #059669); border-color: rgba(16,185,129,0.4); }
+  .menu-btn-blue { background: linear-gradient(135deg, #0ea5e9, #0284c7); border-color: rgba(14,165,233,0.4); }
+  .menu-btn-orange { background: linear-gradient(135deg, #f97316, #ea580c); border-color: rgba(249,115,22,0.4); }
 
   .upgrades-screen {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: linear-gradient(135deg, #0f0f1a, #0a0a14);
-    z-index: 1002;
-    padding: 16px; overflow-y: auto; display: none;
+    z-index: 1002; padding: 16px; overflow-y: auto; display: none;
   }
   .upgrades-screen.active { display: block; animation: slideUp 0.3s; }
   @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  .upgrades-header {
-    display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
-  }
+  .upgrades-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
   .back-btn {
     width: 44px; height: 44px; border-radius: 14px;
     background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
@@ -333,9 +301,7 @@
     border: 1px solid rgba(255,255,255,0.08);
     display: flex; align-items: center; gap: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-    transition: all 0.2s;
   }
-  .upgrade-card:active { transform: scale(0.98); }
   .upgrade-icon {
     width: 54px; height: 54px; border-radius: 14px;
     background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,165,0,0.1));
@@ -353,13 +319,9 @@
     padding: 12px 16px; font-size: 13px; font-weight: 800;
     cursor: pointer; white-space: nowrap; touch-action: manipulation;
     box-shadow: 0 4px 15px rgba(255,215,0,0.4);
-    transition: all 0.2s;
   }
   .upgrade-buy:active { transform: scale(0.95); }
-  .upgrade-buy:disabled {
-    background: linear-gradient(135deg, #333, #222);
-    color: #666; cursor: not-allowed; box-shadow: none;
-  }
+  .upgrade-buy:disabled { background: linear-gradient(135deg, #333, #222); color: #666; cursor: not-allowed; box-shadow: none; }
 
   .modal {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -375,7 +337,7 @@
     width: 100%; max-width: 380px;
     border: 1px solid rgba(255,255,255,0.12);
     max-height: 90vh; overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 60px rgba(255,215,0,0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
     animation: modalIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
   @keyframes modalIn {
@@ -412,7 +374,6 @@
     font-size: 12px; color: #a5b4fc;
     word-break: break-all; margin-bottom: 14px;
     text-align: center; font-family: monospace;
-    box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
   }
   .ref-counter {
     background: linear-gradient(135deg, #10b981, #059669);
@@ -421,7 +382,7 @@
     box-shadow: 0 8px 30px rgba(16,185,129,0.4);
     border: 1px solid rgba(255,255,255,0.15);
   }
-  .ref-counter-num { font-size: 42px; font-weight: 900; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+  .ref-counter-num { font-size: 42px; font-weight: 900; }
   .ref-counter-label { font-size: 13px; opacity: 0.95; margin-top: 4px; font-weight: 600; }
   .ref-bonus-text {
     text-align: center; color: #FFD700;
@@ -434,18 +395,10 @@
     padding: 15px; font-size: 15px; font-weight: 700;
     cursor: pointer; margin-bottom: 10px;
     box-shadow: 0 4px 20px rgba(42,171,238,0.3);
-    transition: all 0.2s;
   }
   .modal-btn:active { transform: scale(0.97); }
-  .modal-btn-green {
-    background: linear-gradient(135deg, #10b981, #059669);
-    box-shadow: 0 4px 20px rgba(16,185,129,0.3);
-  }
-  .modal-btn-gold {
-    background: linear-gradient(135deg, #FFD700, #FFA500);
-    color: #1c1c1e;
-    box-shadow: 0 4px 20px rgba(255,215,0,0.3);
-  }
+  .modal-btn-green { background: linear-gradient(135deg, #10b981, #059669); }
+  .modal-btn-gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1c1c1e; }
 
   .daily-grid {
     display: grid; grid-template-columns: repeat(4, 1fr);
@@ -455,13 +408,11 @@
     background: rgba(28,28,46,0.8); border-radius: 12px;
     padding: 14px 6px; text-align: center;
     border: 2px solid transparent;
-    transition: all 0.3s;
-    position: relative;
+    transition: all 0.3s; position: relative;
   }
   .daily-day.claimed {
     background: linear-gradient(135deg, #10b981, #059669);
     border-color: #34d399;
-    box-shadow: 0 4px 15px rgba(16,185,129,0.3);
   }
   .daily-day.claimed::after {
     content: '✓'; position: absolute; top: 4px; right: 6px;
@@ -471,7 +422,6 @@
     background: linear-gradient(135deg, #FFD700, #FFA500);
     color: #1c1c1e; border-color: #FFED4E;
     animation: pulseGold 2s infinite;
-    box-shadow: 0 4px 20px rgba(255,215,0,0.5);
   }
   @keyframes pulseGold {
     0%, 100% { box-shadow: 0 4px 20px rgba(255,215,0,0.5); transform: scale(1); }
@@ -489,10 +439,10 @@
   .offline-banner {
     position: fixed; top: 20px; left: 20px; right: 20px;
     background: linear-gradient(135deg, #10b981, #059669);
-    color: white; border-radius: 18px; padding: 18px 18px 18px 18px;
+    color: white; border-radius: 18px; padding: 18px;
     text-align: center; font-weight: 700;
     z-index: 2000; display: none;
-    box-shadow: 0 15px 50px rgba(16,185,129,0.5), 0 0 60px rgba(16,185,129,0.3);
+    box-shadow: 0 15px 50px rgba(16,185,129,0.5);
     border: 1px solid rgba(255,255,255,0.2);
     backdrop-filter: blur(20px);
   }
@@ -508,16 +458,10 @@
     background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
     color: #fff; font-size: 14px; font-weight: bold;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    line-height: 1;
-    padding: 0;
+    transition: all 0.2s; -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; line-height: 1; padding: 0;
   }
-  .offline-close:active {
-    transform: scale(0.85);
-    background: rgba(255,255,255,0.3);
-  }
+  .offline-close:active { transform: scale(0.85); background: rgba(255,255,255,0.3); }
   .offline-title { font-size: 13px; opacity: 0.95; margin-bottom: 6px; letter-spacing: 1px; }
   .offline-amount { font-size: 30px; font-weight: 900; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
   .offline-energy { font-size: 18px; margin-top: 4px; font-weight: 700; }
@@ -667,6 +611,8 @@
 
     const BOT_USERNAME = 'igra2026_bot';
     const SUPPORT_USERNAME = 'demfix3';
+    const SERVER_URL = 'http://localhost:3000'; // ЗАМЕНИ на свой URL сервера
+
     const DAILY_REWARDS = [1000, 2000, 3500, 5000, 7500, 10000, 25000];
     const REF_BONUS = 5000;
     const OFFLINE_RATE = 0.5;
@@ -682,14 +628,15 @@
     let regenLevel = 0;
     let totalTaps = 0;
     let playerLevel = 1;
-
     let refCount = 0;
     let refClaimed = 0;
-
     let dailyStreak = 0;
     let lastDailyTime = 0;
-
     let lastOnlineTime = Date.now();
+
+    const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name)
+      ? tg.initDataUnsafe.user.first_name : 'Игрок';
+    const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'unknown';
 
     let toastTimeout = null;
     function showToast(icon, title, text, type) {
@@ -697,133 +644,80 @@
       document.getElementById('toastIcon').textContent = icon;
       document.getElementById('toastTitle').textContent = title;
       document.getElementById('toastText').textContent = text || '';
-
       toast.className = 'toast';
       if (type) toast.classList.add(type);
-
       if (toastTimeout) clearTimeout(toastTimeout);
       void toast.offsetWidth;
       toast.classList.add('active');
-
-      toastTimeout = setTimeout(function() {
-        toast.classList.remove('active');
-      }, 3000);
+      toastTimeout = setTimeout(function() { toast.classList.remove('active'); }, 3000);
     }
-
     function hideToast() {
-      const toast = document.getElementById('toast');
       if (toastTimeout) clearTimeout(toastTimeout);
-      toast.classList.remove('active');
+      document.getElementById('toast').classList.remove('active');
     }
-
-    document.getElementById('toastClose').addEventListener('click', function(e) {
-      e.stopPropagation();
-      hideToast();
-    });
-
-    function hideOfflineBanner() {
-      document.getElementById('offlineBanner').classList.remove('active');
-    }
-    document.getElementById('offlineClose').addEventListener('click', function(e) {
-      e.stopPropagation();
-      hideOfflineBanner();
-    });
+    document.getElementById('toastClose').addEventListener('click', function(e) { e.stopPropagation(); hideToast(); });
+    document.getElementById('offlineClose').addEventListener('click', function(e) { e.stopPropagation(); document.getElementById('offlineBanner').classList.remove('active'); });
 
     function tapsForLevel(lvl) {
       let total = 0;
-      for (let i = 0; i < lvl; i++) {
-        total += (i + 1) * 500 + 500;
-      }
+      for (let i = 0; i < lvl; i++) total += (i + 1) * 500 + 500;
       return total;
     }
-
     function levelBonus(lvl) { return lvl * 100; }
-
     function getTapPowerByLevel(lvl) {
       if (lvl === 0) return 1;
       return Math.floor(1 + lvl * Math.pow(1.04, lvl));
     }
-
     function tapUpgradeCost() { return Math.floor(30 * Math.pow(1.18, tapLevel)); }
     function energyUpgradeCost() { return Math.floor(30 * Math.pow(1.18, energyLevel)); }
     function regenUpgradeCost() { return Math.floor(150 * Math.pow(1.30, regenLevel)); }
 
+    // === ЗАГРУЗКА С СЕРВЕРА ===
     function loadProgress() {
-      const saved = localStorage.getItem('tapgame_v6');
-      if (saved) {
-        const d = JSON.parse(saved);
-        score = d.score || 0;
-        energy = d.energy !== undefined ? d.energy : 100;
-        maxEnergy = d.maxEnergy || 100;
-        regen = d.regen || 0.5;
-        tapPower = d.tapPower || 1;
-        tapLevel = d.tapLevel || 0;
-        energyLevel = d.energyLevel || 0;
-        regenLevel = d.regenLevel || 0;
-        totalTaps = d.totalTaps || 0;
-        playerLevel = d.playerLevel || 1;
-        refCount = d.refCount || 0;
-        refClaimed = d.refClaimed || 0;
-        dailyStreak = d.dailyStreak || 0;
-        lastDailyTime = d.lastDailyTime || 0;
-        lastOnlineTime = d.lastOnlineTime || Date.now();
+      if (!userId || userId === 'unknown') {
+        console.log('userId неизвестен — пропускаю загрузку');
+        updateUI();
+        return;
       }
+      fetch(SERVER_URL + '/load?id=' + userId)
+        .then(r => r.json())
+        .then(data => {
+          if (data.error) { updateUI(); return; }
+          score = data.score || 0;
+          energy = data.energy !== undefined ? data.energy : 100;
+          maxEnergy = data.maxEnergy || 100;
+          regen = data.regen || 0.5;
+          tapPower = data.tapPower || 1;
+          tapLevel = data.tapLevel || 0;
+          energyLevel = data.energyLevel || 0;
+          regenLevel = data.regenLevel || 0;
+          totalTaps = data.totalTaps || 0;
+          playerLevel = data.playerLevel || 1;
+          refCount = data.refCount || 0;
+          refClaimed = data.refClaimed || 0;
+          updateUI();
+          showToast('☁️', 'Данные загружены', 'Прогресс с сервера', 'blue');
+        })
+        .catch(err => { console.log('Ошибка загрузки:', err); updateUI(); });
     }
 
+    // === СОХРАНЕНИЕ НА СЕРВЕР ===
     function saveProgress() {
-      lastOnlineTime = Date.now();
-      localStorage.setItem('tapgame_v6', JSON.stringify({
-        score, energy, maxEnergy, regen, tapPower,
-        tapLevel, energyLevel, regenLevel, totalTaps, playerLevel,
-        refCount, refClaimed, dailyStreak, lastDailyTime, lastOnlineTime
-      }));
+      if (!userId || userId === 'unknown') return;
+      fetch(SERVER_URL + '/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: userId, score: score, energy: energy, maxEnergy: maxEnergy,
+          regen: regen, tapPower: tapPower, tapLevel: tapLevel,
+          energyLevel: energyLevel, regenLevel: regenLevel,
+          totalTaps: totalTaps, playerLevel: playerLevel
+        })
+      }).catch(err => console.log('Ошибка сохранения:', err));
     }
 
-    function applyOfflineProgress() {
-      const now = Date.now();
-      const elapsedMs = now - lastOnlineTime;
-      if (elapsedMs < 10000) return;
-      const elapsedSec = elapsedMs / 1000;
-      const energyGain = regen * elapsedSec;
-      const newEnergy = Math.min(maxEnergy, energy + energyGain);
-      const actualEnergyGain = newEnergy - energy;
-      energy = newEnergy;
-      const maxSec = OFFLINE_MAX_HOURS * 3600;
-      const effectiveSec = Math.min(elapsedSec, maxSec);
-      const coinGain = Math.floor(tapPower * OFFLINE_RATE * effectiveSec);
-      if (coinGain > 0 || actualEnergyGain > 1) {
-        score += coinGain;
-        showOfflineBanner(coinGain, actualEnergyGain, elapsedSec);
-      }
-    }
-
-    function showOfflineBanner(coinGain, energyGain, elapsedSec) {
-      const banner = document.getElementById('offlineBanner');
-      document.getElementById('offlineAmount').textContent = '+' + coinGain.toLocaleString('ru') + ' 🪙';
-      const energyEl = document.getElementById('offlineEnergy');
-      energyEl.textContent = energyGain > 1 ? '+' + Math.floor(energyGain) + ' ⚡' : '';
-      let timeText = '';
-      if (elapsedSec < 60) timeText = 'Тебя не было ' + Math.floor(elapsedSec) + ' сек';
-      else if (elapsedSec < 3600) timeText = 'Тебя не было ' + Math.floor(elapsedSec / 60) + ' мин';
-      else {
-        const hours = Math.floor(elapsedSec / 3600);
-        const mins = Math.floor((elapsedSec % 3600) / 60);
-        timeText = 'Тебя не было ' + hours + ' ч ' + mins + ' мин';
-      }
-      if (elapsedSec > OFFLINE_MAX_HOURS * 3600) timeText += ' (учтено ' + OFFLINE_MAX_HOURS + ' ч)';
-      document.getElementById('offlineTime').textContent = timeText;
-      banner.classList.add('active');
-    }
-
-    setInterval(saveProgress, 3000);
+    setInterval(saveProgress, 5000);
     window.addEventListener('beforeunload', saveProgress);
-    document.addEventListener('visibilitychange', function() {
-      if (document.hidden) saveProgress();
-    });
-
-    const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name)
-      ? tg.initDataUnsafe.user.first_name : 'Игрок';
-    const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : 'unknown';
 
     document.getElementById('menuName').textContent = userName;
     document.getElementById('menuAvatar').textContent = userName.charAt(0).toUpperCase();
@@ -837,15 +731,15 @@
       document.getElementById('energyFill').style.width = Math.min(100, pct) + '%';
       document.getElementById('energyText').textContent = Math.floor(energy) + ' / ' + maxEnergy + ' ⚡';
       document.getElementById('levelTop').textContent = playerLevel;
-      const currentLevelTaps = tapsForLevel(playerLevel - 1);
-      const nextLevelTaps = tapsForLevel(playerLevel);
-      const tapsInLevel = totalTaps - currentLevelTaps;
-      const tapsForNext = nextLevelTaps - currentLevelTaps;
-      document.getElementById('tapsDone').textContent = tapsInLevel;
-      document.getElementById('tapsNeeded').textContent = tapsForNext;
-      const levelPct = Math.min(100, Math.max(0, (tapsInLevel / tapsForNext) * 100));
-      document.getElementById('levelFill').style.width = levelPct + '%';
-      document.getElementById('levelPct').textContent = Math.floor(levelPct);
+      const cLT = tapsForLevel(playerLevel - 1);
+      const nLT = tapsForLevel(playerLevel);
+      const tIL = totalTaps - cLT;
+      const tFN = nLT - cLT;
+      document.getElementById('tapsDone').textContent = tIL;
+      document.getElementById('tapsNeeded').textContent = tFN;
+      const lP = Math.min(100, Math.max(0, (tIL / tFN) * 100));
+      document.getElementById('levelFill').style.width = lP + '%';
+      document.getElementById('levelPct').textContent = Math.floor(lP);
       renderUpgrades();
     }
 
@@ -857,7 +751,7 @@
         const now = Date.now();
         if (now - lastNoEnergyToast > 2000) {
           lastNoEnergyToast = now;
-          showToast('⚡', 'Энергия закончилась!', 'Подожди немного — она восстанавливается', 'red');
+          showToast('⚡', 'Энергия закончилась!', 'Подожди — она восстанавливается', 'red');
           if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
         }
         return;
@@ -865,7 +759,6 @@
       score += tapPower;
       energy -= 1;
       totalTaps += 1;
-
       const needed = tapsForLevel(playerLevel);
       if (totalTaps >= needed) {
         playerLevel += 1;
@@ -874,13 +767,11 @@
         showToast('🏆', 'Новый уровень ' + playerLevel + '!', 'Бонус: +' + bonus + ' монет', 'gold');
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
       }
-
       updateUI();
       coin.classList.remove('tap');
       void coin.offsetWidth;
       coin.classList.add('tap');
-      let x = window.innerWidth / 2;
-      let y = window.innerHeight / 2;
+      let x = window.innerWidth / 2, y = window.innerHeight / 2;
       if (e.touches && e.touches[0]) { x = e.touches[0].clientX; y = e.touches[0].clientY; }
       else if (e.clientX) { x = e.clientX; y = e.clientY; }
       showFloat(x, y);
@@ -901,23 +792,18 @@
     coin.addEventListener('click', function(e) { if (e.detail === 0) return; tapCoin(e); });
 
     setInterval(function() {
-      if (energy < maxEnergy) {
-        energy = Math.min(maxEnergy, energy + regen);
-        updateUI();
-      }
+      if (energy < maxEnergy) { energy = Math.min(maxEnergy, energy + regen); updateUI(); }
     }, 1000);
 
     const menuPanel = document.getElementById('menuPanel');
     const menuOverlay = document.getElementById('menuOverlay');
     function openMenu() { menuPanel.classList.add('active'); menuOverlay.classList.add('active'); }
     function closeMenu() { menuPanel.classList.remove('active'); menuOverlay.classList.remove('active'); }
-
     document.getElementById('hamburger').addEventListener('click', openMenu);
     document.getElementById('menuClose').addEventListener('click', closeMenu);
     menuOverlay.addEventListener('click', closeMenu);
 
     const upgradesScreen = document.getElementById('upgradesScreen');
-
     document.getElementById('openUpgrades').addEventListener('click', function() {
       closeMenu();
       upgradesScreen.classList.add('active');
@@ -930,47 +816,36 @@
     function renderUpgrades() {
       const list = document.getElementById('upgradesList');
       if (!list) return;
-      const tapCost = tapUpgradeCost();
-      const energyCost = energyUpgradeCost();
-      const regenCost = regenUpgradeCost();
-      const nextTapPower = getTapPowerByLevel(tapLevel + 1);
-      const nextMaxEnergy = maxEnergy + 25;
-      const nextRegen = (regen + 0.5).toFixed(1);
+      const tC = tapUpgradeCost(), eC = energyUpgradeCost(), rC = regenUpgradeCost();
+      const nTP = getTapPowerByLevel(tapLevel + 1);
+      const nME = maxEnergy + 25;
+      const nR = (regen + 0.5).toFixed(1);
       list.innerHTML = '';
-      list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">⚡</div><div class="upgrade-body"><div class="upgrade-name">Сила тапа</div><div class="upgrade-effect">+' + (nextTapPower - tapPower) + ' за тап (→ ' + nextTapPower + ')</div><div class="upgrade-level">Уровень ' + tapLevel + ' / 100</div></div><button class="upgrade-buy" ' + (score < tapCost ? 'disabled' : '') + ' onclick="buyTap()">' + tapCost + ' 🪙</button></div>';
-      list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">🔋</div><div class="upgrade-body"><div class="upgrade-name">Макс. энергия</div><div class="upgrade-effect">+25 ⚡ (→ ' + nextMaxEnergy + ')</div><div class="upgrade-level">Уровень ' + energyLevel + ' / 100</div></div><button class="upgrade-buy" ' + (score < energyCost ? 'disabled' : '') + ' onclick="buyEnergy()">' + energyCost + ' 🪙</button></div>';
-      list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">♻️</div><div class="upgrade-body"><div class="upgrade-name">Восстановление</div><div class="upgrade-effect">+0.5 ⚡/сек (→ ' + nextRegen + ')</div><div class="upgrade-level">Уровень ' + regenLevel + ' / 50</div></div><button class="upgrade-buy" ' + (score < regenCost ? 'disabled' : '') + ' onclick="buyRegen()">' + regenCost + ' 🪙</button></div>';
+      list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">⚡</div><div class="upgrade-body"><div class="upgrade-name">Сила тапа</div><div class="upgrade-effect">+' + (nTP - tapPower) + ' за тап (→ ' + nTP + ')</div><div class="upgrade-level">Уровень ' + tapLevel + ' / 100</div></div><button class="upgrade-buy" ' + (score < tC ? 'disabled' : '') + ' onclick="buyTap()">' + tC + ' 🪙</button></div>';
+      list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">🔋</div><div class="upgrade-body"><div class="upgrade-name">Макс. энергия</div><div class="upgrade-effect">+25 ⚡ (→ ' + nME + ')</div><div class="upgrade-level">Уровень ' + energyLevel + ' / 100</div></div><button class="upgrade-buy" ' + (score < eC ? 'disabled' : '') + ' onclick="buyEnergy()">' + eC + ' 🪙</button></div>';
+      list.innerHTML += '<div class="upgrade-card"><div class="upgrade-icon">♻️</div><div class="upgrade-body"><div class="upgrade-name">Восстановление</div><div class="upgrade-effect">+0.5 ⚡/сек (→ ' + nR + ')</div><div class="upgrade-level">Уровень ' + regenLevel + ' / 50</div></div><button class="upgrade-buy" ' + (score < rC ? 'disabled' : '') + ' onclick="buyRegen()">' + rC + ' 🪙</button></div>';
     }
 
     window.buyTap = function() {
-      const cost = tapUpgradeCost();
-      if (score < cost) { showToast('💰', 'Не хватает монет', 'Нужно ' + cost + ' монет', 'red'); return; }
-      score -= cost;
-      tapLevel += 1;
-      tapPower = getTapPowerByLevel(tapLevel);
-      updateUI();
-      showToast('⚡', 'Сила тапа улучшена!', 'Теперь за тап: ' + tapPower + ' 🪙', 'gold');
-      if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+      const c = tapUpgradeCost();
+      if (score < c) { showToast('💰', 'Не хватает монет', 'Нужно ' + c + ' монет', 'red'); return; }
+      score -= c; tapLevel += 1; tapPower = getTapPowerByLevel(tapLevel);
+      updateUI(); saveProgress();
+      showToast('⚡', 'Сила тапа улучшена!', 'Теперь: ' + tapPower + ' 🪙', 'gold');
     };
     window.buyEnergy = function() {
-      const cost = energyUpgradeCost();
-      if (score < cost) { showToast('💰', 'Не хватает монет', 'Нужно ' + cost + ' монет', 'red'); return; }
-      score -= cost;
-      energyLevel += 1;
-      maxEnergy += 25;
-      updateUI();
-      showToast('🔋', 'Энергия улучшена!', 'Максимум: ' + maxEnergy + ' ⚡', 'blue');
-      if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+      const c = energyUpgradeCost();
+      if (score < c) { showToast('💰', 'Не хватает монет', 'Нужно ' + c + ' монет', 'red'); return; }
+      score -= c; energyLevel += 1; maxEnergy += 25;
+      updateUI(); saveProgress();
+      showToast('🔋', 'Энергия улучшена!', 'Максимум: ' + maxEnergy, 'blue');
     };
     window.buyRegen = function() {
-      const cost = regenUpgradeCost();
-      if (score < cost) { showToast('💰', 'Не хватает монет', 'Нужно ' + cost + ' монет', 'red'); return; }
-      score -= cost;
-      regenLevel += 1;
-      regen = parseFloat((regen + 0.5).toFixed(1));
-      updateUI();
+      const c = regenUpgradeCost();
+      if (score < c) { showToast('💰', 'Не хватает монет', 'Нужно ' + c + ' монет', 'red'); return; }
+      score -= c; regenLevel += 1; regen = parseFloat((regen + 0.5).toFixed(1));
+      updateUI(); saveProgress();
       showToast('♻️', 'Восстановление улучшено!', 'Теперь: ' + regen + ' ⚡/сек', 'blue');
-      if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     };
 
     document.getElementById('openProfile').addEventListener('click', function() {
@@ -1012,35 +887,34 @@
         navigator.clipboard.writeText(refLink).then(function() {
           showToast('✅', 'Ссылка скопирована!', 'Отправь другу', 'green');
         });
-      } else {
-        const ta = document.createElement('textarea');
-        ta.value = refLink;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast('✅', 'Ссылка скопирована!', 'Отправь другу', 'green');
       }
     });
 
     document.getElementById('shareRefBtn').addEventListener('click', function() {
-      const shareText = '🎮 Зацени игру!\n\n🔥 Тапай монету, качай уровни, зарабатывай монеты!\n\n💪 Обгони меня в топе!\n\n👇 Играй:';
+      const shareText = '🎮 Зацени игру!\n\n🔥 Тапай монету, качай уровни!\n\n💪 Обгони меня!\n\n👇 Играй:';
       const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(refLink) + '&text=' + encodeURIComponent(shareText);
       if (tg) tg.openTelegramLink(shareUrl);
       else window.open(shareUrl, '_blank');
     });
 
     document.getElementById('checkRefBtn').addEventListener('click', function() {
-      if (refClaimed < refCount) {
-        const newRefs = refCount - refClaimed;
-        const bonus = newRefs * REF_BONUS;
-        score += bonus;
-        refClaimed = refCount;
-        updateUI();
-        showToast('🎉', 'Получено за ' + newRefs + ' друга!', '+' + bonus + ' монет', 'gold');
-      } else {
-        showToast('👥', 'Пока новых друзей нет', 'Поделись ссылкой!', 'blue');
-      }
+      fetch(SERVER_URL + '/claimrefs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: userId })
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          score += data.bonus;
+          refClaimed = refCount;
+          updateUI(); saveProgress();
+          showToast('🎉', 'Получено!', '+' + data.bonus + ' монет', 'gold');
+        } else {
+          showToast('👥', 'Новых друзей нет', 'Поделись ссылкой!', 'blue');
+        }
+      })
+      .catch(() => showToast('❌', 'Ошибка', 'Сервер недоступен', 'red'));
     });
 
     function renderDaily() {
@@ -1079,39 +953,32 @@
     document.getElementById('claimDailyBtn').addEventListener('click', function() {
       const now = Date.now();
       const day = 24 * 60 * 60 * 1000;
-      if (dailyStreak >= 7) {
-        showToast('🏆', 'Ты прошёл все 7 дней!', 'Завтра новый цикл', 'gold');
-        return;
-      }
+      if (dailyStreak >= 7) { showToast('🏆', 'Ты прошёл все 7 дней!', '', 'gold'); return; }
       if (lastDailyTime > 0 && now - lastDailyTime < day) {
         const left = Math.ceil((day - (now - lastDailyTime)) / (60 * 60 * 1000));
-        showToast('⏳', 'Подожди ещё ' + left + ' ч.', 'Бонус пока недоступен', 'red');
+        showToast('⏳', 'Подожди ещё ' + left + ' ч.', '', 'red');
         return;
       }
       const reward = DAILY_REWARDS[dailyStreak];
       score += reward;
       dailyStreak += 1;
       lastDailyTime = now;
-      updateUI();
-      renderDaily();
+      updateUI(); renderDaily(); saveProgress();
       showToast('🎁', 'Бонус получен!', '+' + reward + ' монет', 'gold');
-      if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
     });
 
     document.getElementById('openSupport').addEventListener('click', function() {
       closeMenu();
-      const supportText = encodeURIComponent('Здравствуйте! 👋\n\nПишу из игры.\n\nИнтересует разработка игры для Telegram. Расскажите подробнее про:\n\n• цены\n• сроки\n• примеры\n\nСпасибо!');
+      const supportText = encodeURIComponent('Здравствуйте! 👋\n\nПишу из игры.\n\nИнтересует разработка игры для Telegram.');
       const supportUrl = 'https://t.me/' + SUPPORT_USERNAME + '?text=' + supportText;
       if (tg) tg.openTelegramLink(supportUrl);
       else window.open(supportUrl, '_blank');
-      showToast('💬', 'Открываю чат поддержки', 'Напишите мне — отвечу быстро!', 'orange');
+      showToast('💬', 'Открываю чат поддержки', '', 'orange');
     });
 
+    // === СТАРТ ===
     loadProgress();
-    applyOfflineProgress();
     updateUI();
-
-    setInterval(function() { lastOnlineTime = Date.now(); }, 3000);
   </script>
 </body>
 </html>
