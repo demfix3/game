@@ -15,7 +15,6 @@
     padding: 12px; min-height: 100vh; overflow-y: auto;
   }
 
-  /* ===== ВЕРХНЯЯ ПАНЕЛЬ ===== */
   .top-bar {
     display: flex; align-items: center; justify-content: space-between;
     background: linear-gradient(135deg, rgba(44,44,62,0.8), rgba(30,30,45,0.8));
@@ -38,7 +37,6 @@
   .hamburger:active { transform: scale(0.92); background: rgba(255,255,255,0.15); }
   .hamburger span { width: 20px; height: 2.5px; background: white; border-radius: 2px; }
 
-  /* ===== УРОВЕНЬ ===== */
   .level-bar {
     background: linear-gradient(135deg, rgba(44,44,62,0.8), rgba(30,30,45,0.8));
     border-radius: 16px; padding: 12px 16px; margin-bottom: 10px;
@@ -68,7 +66,6 @@
     border-radius: 5px;
   }
 
-  /* ===== ЭНЕРГИЯ ===== */
   .energy-bar {
     width: 100%; height: 24px; background: rgba(0,0,0,0.4);
     border-radius: 12px; margin-bottom: 10px;
@@ -95,7 +92,6 @@
     letter-spacing: 0.5px;
   }
 
-  /* ===== СЧЁТ ===== */
   .score-block { text-align: center; margin-bottom: 6px; }
   .score-label { font-size: 11px; color: #888; letter-spacing: 2px; font-weight: 600; }
   .score {
@@ -110,7 +106,6 @@
     border: 1px solid rgba(255,255,255,0.08);
   }
 
-  /* ===== МОНЕТА ===== */
   .coin-wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 200px; position: relative; }
   .coin {
     width: 55vw; height: 55vw; max-width: 240px; max-height: 240px;
@@ -145,7 +140,6 @@
     100% { transform: scale(1) translateY(0); }
   }
 
-  /* ===== ВСПЛЫВАЮЩИЕ ЦИФРЫ ===== */
   .float {
     position: fixed; color: #FFD700; font-weight: 800; font-size: 24px;
     pointer-events: none; animation: floatUp 1s forwards; z-index: 999;
@@ -156,7 +150,6 @@
     100% { opacity: 0; transform: translateY(-100px) scale(1.3); }
   }
 
-  /* ===== КРАСИВЫЕ УВЕДОМЛЕНИЯ ===== */
   .toast {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-120px);
     background: linear-gradient(135deg, rgba(44,44,62,0.98), rgba(30,30,45,0.98));
@@ -184,8 +177,9 @@
   .toast.red .toast-title { color: #f87171; }
   .toast.blue { border-color: rgba(59,130,246,0.5); box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 50px rgba(59,130,246,0.4); }
   .toast.blue .toast-title { color: #60a5fa; }
+  .toast.orange { border-color: rgba(249,115,22,0.5); box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 50px rgba(249,115,22,0.4); }
+  .toast.orange .toast-title { color: #fb923c; }
 
-  /* ===== МЕНЮ ===== */
   .menu-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.7); display: none; z-index: 1000;
@@ -270,8 +264,12 @@
     border-color: rgba(14,165,233,0.4);
     box-shadow: 0 4px 20px rgba(14,165,233,0.3);
   }
+  .menu-btn-orange {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    border-color: rgba(249,115,22,0.4);
+    box-shadow: 0 4px 20px rgba(249,115,22,0.3);
+  }
 
-  /* ===== УЛУЧШЕНИЯ ===== */
   .upgrades-screen {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: linear-gradient(135deg, #0f0f1a, #0a0a14);
@@ -331,7 +329,6 @@
     color: #666; cursor: not-allowed; box-shadow: none;
   }
 
-  /* ===== МОДАЛКИ ===== */
   .modal {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.85); display: none;
@@ -377,7 +374,6 @@
   }
   .close-btn:active { transform: scale(0.97); background: rgba(255,255,255,0.15); }
 
-  /* ===== РЕФЕРАЛКА ===== */
   .ref-link-box {
     background: rgba(0,0,0,0.4); border: 1px solid rgba(99,102,241,0.3);
     border-radius: 12px; padding: 14px;
@@ -419,7 +415,6 @@
     box-shadow: 0 4px 20px rgba(255,215,0,0.3);
   }
 
-  /* ===== ЕЖЕДНЕВНЫЙ ===== */
   .daily-grid {
     display: grid; grid-template-columns: repeat(4, 1fr);
     gap: 8px; margin-bottom: 16px;
@@ -459,7 +454,6 @@
     margin-bottom: 16px; font-weight: 500;
   }
 
-  /* ===== ОФЛАЙН-ПЛАШКА ===== */
   .offline-banner {
     position: fixed; top: 20px; left: 20px; right: 20px;
     background: linear-gradient(135deg, #10b981, #059669);
@@ -561,6 +555,11 @@
       <span class="menu-btn-icon">🎁</span>
       <span>Ежедневный бонус</span>
     </button>
+
+    <button class="menu-btn menu-btn-orange" id="openSupport">
+      <span class="menu-btn-icon">💬</span>
+      <span>Поддержка</span>
+    </button>
   </div>
 
   <div class="upgrades-screen" id="upgradesScreen">
@@ -617,6 +616,7 @@
     if (tg) { tg.ready(); tg.expand(); }
 
     const BOT_USERNAME = 'igra2026_bot';
+    const SUPPORT_USERNAME = 'demfix3';
     const DAILY_REWARDS = [1000, 2000, 3500, 5000, 7500, 10000, 25000];
     const REF_BONUS = 5000;
     const OFFLINE_RATE = 0.5;
@@ -641,7 +641,6 @@
 
     let lastOnlineTime = Date.now();
 
-    // === КРАСИВЫЕ УВЕДОМЛЕНИЯ ===
     let toastTimeout = null;
     function showToast(icon, title, text, type) {
       const toast = document.getElementById('toast');
@@ -653,8 +652,6 @@
       if (type) toast.classList.add(type);
 
       if (toastTimeout) clearTimeout(toastTimeout);
-
-      // Форсируем reflow
       void toast.offsetWidth;
       toast.classList.add('active');
 
@@ -959,7 +956,8 @@
     });
 
     document.getElementById('shareRefBtn').addEventListener('click', function() {
-      const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(refLink) + '&text=' + encodeURIComponent('Играй со мной!');
+      const shareText = '🎮 Зацени игру!\n\n🔥 Тапай монету, качай уровни, зарабатывай монеты!\n\n💪 Обгони меня в топе!\n\n👇 Играй:';
+      const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(refLink) + '&text=' + encodeURIComponent(shareText);
       if (tg) tg.openTelegramLink(shareUrl);
       else window.open(shareUrl, '_blank');
     });
@@ -1030,6 +1028,16 @@
       renderDaily();
       showToast('🎁', 'Бонус получен!', '+' + reward + ' монет', 'gold');
       if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+    });
+
+    // === ПОДДЕРЖКА ===
+    document.getElementById('openSupport').addEventListener('click', function() {
+      closeMenu();
+      const supportText = encodeURIComponent('Здравствуйте! 👋\n\nПишу из игры.\n\nИнтересует разработка игры для Telegram. Расскажите подробнее про:\n\n• цены\n• сроки\n• примеры\n\nСпасибо!');
+      const supportUrl = 'https://t.me/' + SUPPORT_USERNAME + '?text=' + supportText;
+      if (tg) tg.openTelegramLink(supportUrl);
+      else window.open(supportUrl, '_blank');
+      showToast('💬', 'Открываю чат поддержки', 'Напишите мне — отвечу быстро!', 'orange');
     });
 
     loadProgress();
