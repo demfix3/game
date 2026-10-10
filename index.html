@@ -132,7 +132,7 @@
     <div class="balance">
       <div class="balance-label">БАЛАНС</div>
       <div class="balance-value"><span id="balanceTop">0</span> 🪙</div>
-      <div class="version-badge">v13 · FIXED</div>
+      <div class="version-badge">v14 · URL-ID</div>
     </div>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
@@ -248,11 +248,20 @@
     let tapLevel = 0, energyLevel = 0, regenLevel = 0, totalTaps = 0, playerLevel = 1;
     let refCount = 0, refClaimed = 0, dailyStreak = 0, lastDailyTime = 0;
     let isSaving = false;
-    let isLoading = true;   // ⚠️ ВАЖНО: блокирует save до завершения load
+    let isLoading = true;
     let saveStatus = '—';
 
+    // ⚠️ ВАЖНО: сначала URL, потом Telegram
+    const urlId = new URLSearchParams(window.location.search).get('id');
     const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name) ? tg.initDataUnsafe.user.first_name : 'Игрок';
-    const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : null;
+    const userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user)
+      ? tg.initDataUnsafe.user.id
+      : (urlId ? urlId : null);
+
+    console.log('=== DEBUG ===');
+    console.log('urlId:', urlId);
+    console.log('userId:', userId);
+    console.log('tg:', tg ? 'OK' : 'NULL');
 
     let toastTimeout = null;
     function showToast(icon, title, text, type) {
@@ -287,6 +296,7 @@
       fetch(SERVER_URL + '/load?id=' + userId)
         .then(r => r.json())
         .then(data => {
+          console.log('LOAD:', data);
           if (data.error) { isLoading = false; updateUI(); return; }
           score = data.score || 0;
           energy = data.energy !== undefined ? data.energy : 100;
@@ -308,7 +318,7 @@
     }
 
     function saveProgress() {
-      if (!userId || isSaving || isLoading) return;   // ⚠️ НЕ сохраняем, пока грузимся
+      if (!userId || isSaving || isLoading) return;
       isSaving = true;
       fetch(SERVER_URL + '/save', {
         method: 'POST',
@@ -353,7 +363,7 @@
     let lastNoEnergyToast = 0;
 
     function tapCoin(e) {
-      if (isLoading) return;   // ⚠️ НЕ тапаем, пока грузимся
+      if (isLoading) return;
       if (energy < 1) {
         const now = Date.now();
         if (now - lastNoEnergyToast > 2000) {
