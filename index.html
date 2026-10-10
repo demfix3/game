@@ -132,7 +132,7 @@
     <div class="balance">
       <div class="balance-label">БАЛАНС</div>
       <div class="balance-value"><span id="balanceTop">0</span> 🪙</div>
-      <div class="version-badge">v15 · STARTPARAM</div>
+      <div class="version-badge">v16 · SMART-SAVE</div>
     </div>
     <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
@@ -251,7 +251,6 @@
     let isLoading = true;
     let saveStatus = '—';
 
-    // ⚠️ ID: сначала Telegram, потом startapp (из t.me), потом URL
     const urlId = new URLSearchParams(window.location.search).get('id');
     const startParam = (tg && tg.initDataUnsafe) ? tg.initDataUnsafe.start_param : null;
     const userName = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.first_name) ? tg.initDataUnsafe.user.first_name : 'Игрок';
@@ -263,7 +262,6 @@
     console.log('urlId:', urlId);
     console.log('startParam:', startParam);
     console.log('userId:', userId);
-    console.log('tg:', tg ? 'OK' : 'NULL');
 
     let toastTimeout = null;
     function showToast(icon, title, text, type) {
@@ -328,7 +326,16 @@
         body: JSON.stringify({ userId, score, energy, maxEnergy, regen, tapPower, tapLevel, energyLevel, regenLevel, totalTaps, playerLevel })
       })
       .then(r => r.json())
-      .then(data => { setStatus('✅'); })
+      .then(data => {
+        // ⚠️ ГЛАВНЫЙ ФИКС: если сервер вернул current (IGNORED) - синхронизируем локальный score
+        if (data.ignored && data.current) {
+          console.log('IGNORED - syncing from server:', data.current);
+          score = data.current.score || score;
+          totalTaps = data.current.totalTaps || totalTaps;
+          updateUI();
+        }
+        setStatus('✅');
+      })
       .catch(err => { setStatus('❌'); })
       .finally(() => { isSaving = false; });
     }
