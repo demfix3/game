@@ -337,7 +337,7 @@
       }).catch(err => console.log('Save error:', err));
     }
 
-    setInterval(saveProgress, 5000);
+    setInterval(saveProgress, 2000);
     window.addEventListener('beforeunload', saveProgress);
 
     document.getElementById('menuName').textContent = userName;
