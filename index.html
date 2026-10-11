@@ -387,8 +387,12 @@
       fetch(SERVER_URL + '/load?id=' + userId).then(r => r.json()).then(data => {
         if (data.error) { isLoading = false; loadSuccess = true; updateUI(); return; }
         score = data.score || 0;
-        energy = data.energy !== undefined ? data.energy : 100;
-        maxEnergy = data.maxEnergy || 100;
+        energy = data.energy !== undefined ? data.energy : maxEnergy;
+if (energy > maxEnergy) energy = maxEnergy;
+        // Пересчитываем maxEnergy из energyLevel (защита от сброса)
+energyLevel = data.energyLevel || 0;
+const calculatedMaxEnergy = 100 + energyLevel * 25;
+maxEnergy = Math.max(data.maxEnergy || 100, calculatedMaxEnergy);
         regen = data.regen || 0.5;
         tapPower = data.tapPower || 1;
         tapLevel = data.tapLevel || 0;
